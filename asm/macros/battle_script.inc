@@ -2219,6 +2219,62 @@
 	various BS_ATTACKER, VARIOUS_TRY_SYMBIOSIS
 	.endm
 
+	@ Used to active a different Max Move effects.
+	.macro setmaxmoveeffect
+	various 0, VARIOUS_SET_MAX_MOVE_EFFECT
+	.endm
+
+	.macro setsteelsurge, failInstr:req
+	various 0, VARIOUS_SET_STEELSURGE
+	.4byte \failInstr
+	.endm
+
+	.macro damagenontypes
+	various 0, VARIOUS_DAMAGE_NON_TYPES
+	.endm
+
+	.macro trysetstatus1, ptr:req
+	various 0, VARIOUS_TRY_SET_STATUS1
+	.4byte \ptr
+	.endm
+
+	.macro trysetstatus2, ptr:req
+	various 0, VARIOUS_TRY_SET_STATUS2
+	.4byte \ptr
+	.endm
+
+	.macro tryhealsixthhealth, ptr:req
+	various 0, VARIOUS_TRY_HEAL_SIXTH_HP
+	.4byte \ptr
+	.endm
+
+	.macro tryrecycleberry, ptr:req
+	various 0, VARIOUS_TRY_RECYCLE_BERRY
+	.4byte \ptr
+	.endm
+	
+	.macro updatedynamax
+	various 0, VARIOUS_UPDATE_DYNAMAX
+	.endm
+
+	.macro jumpiftargetdynamaxed, ptr:req
+	various 0, VARIOUS_JUMP_IF_TARGET_DYNAMAXED
+	.4byte \ptr
+	.endm
+
+	.macro jumpifnoballs, ptr:req
+	various 0, VARIOUS_JUMP_IF_NO_BALLS
+	.4byte \ptr
+	.endm
+
+	.macro catchraidboss
+	various 0, VARIOUS_CATCH_RAID_BOSS
+	.endm
+
+	.macro hidehealthboxes
+	various 0, VARIOUS_HIDE_HEALTHBOXES
+	.endm
+
 	@ Tries to increase or decrease a battler's stat's stat stage by a specified amount. If impossible, jumps to \script.
 	.macro modifybattlerstatstage battler:req, stat:req, mode:req, amount:req, script:req, animation:req, customString
 

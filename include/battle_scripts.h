@@ -457,6 +457,7 @@ extern const u8 BattleScript_DampPreventsAftermath[];
 extern const u8 BattleScript_HealingWishActivates[];
 extern const u8 BattleScript_LunarDanceActivates[];
 extern const u8 BattleScript_ShellTrapSetUp[];
+extern const u8 BattleScript_StealthRockActivates[];
 extern const u8 BattleScript_CouldntFullyProtect[];
 extern const u8 BattleScript_MoveEffectStockpileWoreOff[];
 extern const u8 BattleScript_StealthRockActivates[];
@@ -470,5 +471,43 @@ extern const u8 BattleScript_RecoverHPZMove[];
 extern const u8 BattleScript_StatUpZMove[];
 extern const u8 BattleScript_HealReplacementZMove[];
 extern const u8 BattleScript_EffectExtremeEvoboost[];
+
+// max moves
+extern const u8 BattleScript_EffectRaiseStatAllies[];
+extern const u8 BattleScript_EffectLowerStatFoes[];
+extern const u8 BattleScript_EffectSetWeather[];
+extern const u8 BattleScript_EffectSetTerrain[];
+extern const u8 BattleScript_SteelsurgeActivates[];
+extern const u8 BattleScript_SteelsurgeFree[];
+extern const u8 BattleScript_SteelsurgeDefog[];
+extern const u8 BattleScript_DamageNonTypesStarts[];
+extern const u8 BattleScript_DamageNonTypesContinues[];
+extern const u8 BattleScript_DefogTryHazards[];
+extern const u8 BattleScript_EffectAuroraVeilSuccess[];
+extern const u8 BattleScript_EffectGravitySuccess[];
+extern const u8 BattleScript_EffectYawnSuccess[];
+extern const u8 BattleScript_EffectTryReducePP[];
+extern const u8 BattleScript_EffectStatus1Foes[];
+extern const u8 BattleScript_EffectStatus2Foes[];
+extern const u8 BattleScript_TormentEnds[];
+extern const u8 BattleScript_EffectRaiseCritAlliesAnim[];
+extern const u8 BattleScript_EffectHealOneSixthAllies[];
+extern const u8 BattleScript_EffectCureStatusAllies[];
+extern const u8 BattleScript_EffectRecycleBerriesAllies[];
+extern const u8 BattleScript_DynamaxBegins[];
+extern const u8 BattleScript_DynamaxEnds[];
+extern const u8 BattleScript_MoveBlockedByDynamax[];
+
+// raids
+extern const u8 BattleScript_RaidIntro[];
+extern const u8 BattleScript_MaxRaidStormBrews[];
+extern const u8 BattleScript_RaidShieldAppeared[];
+extern const u8 BattleScript_RaidShieldDisappeared[];
+extern const u8 BattleScript_RaidBarrierBroken[];
+extern const u8 BattleScript_RaidShockwave[];
+extern const u8 BattleScript_RaidVictory[];
+extern const u8 BattleScript_FaintRaidBoss[];
+extern const u8 BattleScript_RaidDefeat[];
+extern const u8 BattleScript_TeraRaidTimerLow[];
 
 #endif // GUARD_BATTLE_SCRIPTS_H

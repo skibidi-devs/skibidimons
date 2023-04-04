@@ -2175,6 +2175,19 @@ void DoSpecialTrainerBattle(void)
         if (gSpecialVar_0x8005 & MULTI_BATTLE_CHOOSE_MONS) // Skip mons restoring(done in the script)
             gBattleScripting.specialTrainerBattleType = 0xFF;
         break;
+    // TODO: Does this belong with all the other multi battles?
+    case SPECIAL_BATTLE_RAID:
+        gBattleTypeFlags = BATTLE_TYPE_RAID | BATTLE_TYPE_DOUBLE | BATTLE_TYPE_MULTI | BATTLE_TYPE_INGAME_PARTNER;
+	
+        // TODO: Get Partner properly.
+        gPartnerSpriteId = TRAINER_BACK_PIC_WALLY;
+        gPartnerTrainerId = TRAINER_WALLY_VR_2 + TRAINER_CUSTOM_PARTNER;
+        FillPartnerParty(gPartnerTrainerId);
+
+        CreateTask(Task_StartBattleAfterTransition, 1);
+        PlayMapChosenOrBattleBGM(0);
+        BattleTransition_StartOnField(GetRaidBattleTransition());
+        break;
     }
 }
 

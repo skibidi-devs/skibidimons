@@ -780,13 +780,78 @@ static const u8 sText_AbilityWeakenedSurroundingMonsStat[] = _("{B_ATK_NAME_WITH
 static const u8 sText_AttackerGainedStrengthFromTheFallen[] = _("{B_ATK_NAME_WITH_PREFIX} gained strength\nfrom the fallen!");
 static const u8 sText_PrepareShellTrap[] = _("{B_ATK_NAME_WITH_PREFIX} set a shell trap!");
 static const u8 sText_ShellTrapDidntWork[] = _("{B_ATK_NAME_WITH_PREFIX}'s shell trap didn't work!");
+static const u8 sText_SharpSteelFloats[] = _("Sharp-pointed steel floats\naround {B_DEF_TEAM2} team!");
+static const u8 sText_SharpSteelDmg[] = _("Sharp steel bit into {B_DEF_NAME_WITH_PREFIX}!");
+static const u8 sText_PkmnBlewAwaySharpSteel[] = _("{B_ATK_NAME_WITH_PREFIX} blew away\nsharp steel!");
+static const u8 sText_SharpSteelDisappearedFromTeam[] = _("The sharp steel disappeared from\nthe ground around {B_ATK_TEAM2} team!");
+static const u8 sText_TeamTrappedWithVines[] = _("{B_DEF_TEAM1} team got trapped\nwith vines!");
+static const u8 sText_PkmnHurtByVines[] = _("{B_ATK_NAME_WITH_PREFIX} is hurt by\nG-Max Vine Lash's ferocious beating!");
+static const u8 sText_TeamCaughtInVortex[] = _("{B_DEF_TEAM1} team got caught\nin a vortex of water!");
+static const u8 sText_PkmnHurtByVortex[] = _("{B_ATK_NAME_WITH_PREFIX} is hurt by\nG-Max Cannonade's vortex!");
+static const u8 sText_TeamSurroundedByFire[] = _("{B_DEF_TEAM1} team was surrounded\nby flames!");
+static const u8 sText_PkmnBurningUp[] = _("{B_ATK_NAME_WITH_PREFIX} is burning up\nwithin G-Max Wildfire's flames!");
+static const u8 sText_TeamSurroundedByRocks[] = _("{B_DEF_TEAM1} team was surrounded\nby rocks!");
+static const u8 sText_PkmnHurtByRocksThrown[] = _("{B_ATK_NAME_WITH_PREFIX} is hurt by\nrocks thrown out by G-Max Volcalith!");
 static const u8 sText_CouldntFullyProtect[] = _("{B_DEF_NAME_WITH_PREFIX} couldn't fully protect\nitself and got hurt!");
 static const u8 sText_StockpiledEffectWoreOff[] = _("{B_ATK_NAME_WITH_PREFIX}'s stockpiled\neffect wore off!");
+static const u8 sText_MoveBlockedByDynamax[] = _("The move was blocked by\nthe power of Dynamax!");
+static const u8 sText_PkmnAppearsMassive[] = _("{B_OPPONENT_MON1_NAME} appears\nto be massive!");
+static const u8 sText_DynamaxEnergyGathered[] = _("Dynamax Energy gathered\naround {B_PLAYER_NAME}!");
+static const u8 sText_RaidBarrierAppeared[] = _("A mysterious barrier appeared,\nprotecting {B_OPPONENT_MON1_NAME} from attacks.");
+static const u8 sText_RaidBarrierDisappeared[] = _("The mysterious barrier protecting\n{B_OPPONENT_MON1_NAME} disappeared!");
+static const u8 sText_CatchRaidMon[] = _("{B_OPPONENT_MON1_NAME} is weak!\nThrow a Ball?");
+static const u8 sText_PkmnIsTooStrong[] = _("{B_OPPONENT_MON1_NAME} is\ntoo strong!");
+static const u8 sText_PkmnNullifiedOthers[] = _("{B_OPPONENT_MON1_NAME} nullified the stat changes\nand abilities of other Pokémon!");
+static const u8 sText_MovePreventedByDynamax[] = _("The move was blocked by\nthe power of Dynamax!");
+static const u8 sText_RaidPkmnAppeared[] = _("{B_OPPONENT_MON1_NAME} appeared!");
+static const u8 sText_RaidPkmnDisappeared[] = _("{B_OPPONENT_MON1_NAME} disappeared\nsomewhere into the den...");
+static const u8 sText_RaidPkmnGettingDesperate[] = _("{B_OPPONENT_MON1_NAME} is getting desperate!\nIts attacks are growing more aggressive!");
+static const u8 sText_StormStartedBrewing[] = _("A storm started brewing\nabove you.");
+static const u8 sText_StormIsGettingStronger[] = _("The storm above you is\ngetting stronger!");
+static const u8 sText_StormIsGettingEvenStronger[] = _("The storm is growing\neven stronger!");
+static const u8 sText_StormIsGettingTooStrong[] = _("The storm is getting too\nstrong to withstand!");
+static const u8 sText_BlownOutOfDen[] = _("{B_PLAYER_NAME} was blown out\nof the den!");
+static const u8 sText_PkmnRemovedEffectsFromSelf[] = _("{B_OPPONENT_MON1_NAME} removed negative\neffects from itself!");
+static const u8 sText_EnergyGatheredAroundPkmn[] = _("Energy has begun to gather\naround {B_OPPONENT_MON1_NAME}!");
+static const u8 sText_PkmnBrokeItsStance[] = _("{B_OPPONENT_MON1_NAME} succumbed to the\nonslaught and broke its stance!");
+static const u8 sText_RaidNotMuchTimeLeft[] = _("You can feel tremendous energy\ngathering! There isn't much time left!");
+static const u8 sText_RaidPkmnReleasedEnergy[] = _("{B_OPPONENT_MON1_NAME} released its\ngathered energy!");
 
 const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT] =
 {
+    [STRINGID_PKMNREMOVEDEFFECTSFROMSELF - BATTLESTRINGS_TABLE_START] = sText_PkmnRemovedEffectsFromSelf,
+    [STRINGID_ENERGYGATHEREDAROUNDPKMN - BATTLESTRINGS_TABLE_START] = sText_EnergyGatheredAroundPkmn,
+    [STRINGID_PKMNBROKEITSSTANCE - BATTLESTRINGS_TABLE_START] = sText_PkmnBrokeItsStance,
+    [STRINGID_RAIDNOTMUCHTIMELEFT - BATTLESTRINGS_TABLE_START] = sText_RaidNotMuchTimeLeft,
+    [STRINGID_RAIDPKMNRELEASEDENERGY - BATTLESTRINGS_TABLE_START] = sText_RaidPkmnReleasedEnergy,
+    [STRINGID_DYNAMAXENERGYGATHERED - BATTLESTRINGS_TABLE_START] = sText_DynamaxEnergyGathered,
+    [STRINGID_PKMNAPPEARSMASSIVE - BATTLESTRINGS_TABLE_START] = sText_PkmnAppearsMassive,
+    [STRINGID_RAIDPKMNDISAPPEARED - BATTLESTRINGS_TABLE_START] = sText_RaidPkmnDisappeared,
+    [STRINGID_PKMNISTOOSTRONG - BATTLESTRINGS_TABLE_START] = sText_PkmnIsTooStrong,
+    [STRINGID_PKMNNULLIFIEDOTHERS - BATTLESTRINGS_TABLE_START] = sText_PkmnNullifiedOthers,
+    [STRINGID_MOVEPREVENTEDBYDYNAMAX - BATTLESTRINGS_TABLE_START] = sText_MovePreventedByDynamax,
+    [STRINGID_RAIDSHIELDAPPEARED - BATTLESTRINGS_TABLE_START] = sText_RaidBarrierAppeared,
+    [STRINGID_RAIDSHIELDDISAPPEARED - BATTLESTRINGS_TABLE_START] = sText_RaidBarrierDisappeared,
+    [STRINGID_STORMSTARTEDBREWING - BATTLESTRINGS_TABLE_START] = sText_StormStartedBrewing,
+    [STRINGID_STORMGETTINGSTRONGER - BATTLESTRINGS_TABLE_START] = sText_StormIsGettingStronger,
+    [STRINGID_STORMGETTINGEVENSTRONGER - BATTLESTRINGS_TABLE_START] = sText_StormIsGettingEvenStronger,
+    [STRINGID_STORMGETTINGTOOSTRONG - BATTLESTRINGS_TABLE_START] = sText_StormIsGettingTooStrong,
+    [STRINGID_BLOWNOUTOFDEN - BATTLESTRINGS_TABLE_START] = sText_BlownOutOfDen,
+    [STRINGID_CATCHRAIDMON - BATTLESTRINGS_TABLE_START] = sText_CatchRaidMon,
+    [STRINGID_MOVEBLOCKEDBYDYNAMAX - BATTLESTRINGS_TABLE_START] = sText_MoveBlockedByDynamax,
     [STRINGID_STOCKPILEDEFFECTWOREOFF - BATTLESTRINGS_TABLE_START] = sText_StockpiledEffectWoreOff,
     [STRINGID_COULDNTFULLYPROTECT - BATTLESTRINGS_TABLE_START] = sText_CouldntFullyProtect,
+    [STRINGID_PKMNHURTBYROCKSTHROWN - BATTLESTRINGS_TABLE_START] = sText_PkmnHurtByRocksThrown,
+    [STRINGID_TEAMSURROUNDEDBYROCKS - BATTLESTRINGS_TABLE_START] = sText_TeamSurroundedByRocks,
+    [STRINGID_PKMNBURNINGUP - BATTLESTRINGS_TABLE_START] = sText_PkmnBurningUp,
+    [STRINGID_TEAMSURROUNDEDBYFIRE - BATTLESTRINGS_TABLE_START] = sText_TeamSurroundedByFire,
+    [STRINGID_PKMNHURTBYVORTEX - BATTLESTRINGS_TABLE_START] = sText_PkmnHurtByVortex,
+    [STRINGID_TEAMCAUGHTINVORTEX - BATTLESTRINGS_TABLE_START] = sText_TeamCaughtInVortex,
+    [STRINGID_PKMNHURTBYVINES - BATTLESTRINGS_TABLE_START] = sText_PkmnHurtByVines,
+    [STRINGID_TEAMTRAPPEDWITHVINES - BATTLESTRINGS_TABLE_START] = sText_TeamTrappedWithVines,
+    [STRINGID_PKMNBLEWAWAYSHARPSTEEL - BATTLESTRINGS_TABLE_START] = sText_PkmnBlewAwaySharpSteel,
+    [STRINGID_SHARPSTEELDMG - BATTLESTRINGS_TABLE_START] = sText_SharpSteelDmg,
+    [STRINGID_SHARPSTEELFLOATS - BATTLESTRINGS_TABLE_START] = sText_SharpSteelFloats,
     [STRINGID_ATTACKERGAINEDSTRENGTHFROMTHEFALLEN - BATTLESTRINGS_TABLE_START] = sText_AttackerGainedStrengthFromTheFallen,
     [STRINGID_ABILITYWEAKENEDFSURROUNDINGMONSSTAT - BATTLESTRINGS_TABLE_START] = sText_AbilityWeakenedSurroundingMonsStat,
     [STRINGID_ELECTRICTERRAINACTIVATEDABILITY - BATTLESTRINGS_TABLE_START] = sText_ElectricTerrainActivatedAbility,
@@ -1377,6 +1442,7 @@ const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT] =
     [STRINGID_TOXICSPIKESDISAPPEAREDFROMTEAM - BATTLESTRINGS_TABLE_START] = sText_ToxicSpikesDisappearedFromTeam,
     [STRINGID_STEALTHROCKDISAPPEAREDFROMTEAM - BATTLESTRINGS_TABLE_START] = sText_StealthRockDisappearedFromTeam,
     [STRINGID_STICKYWEBDISAPPEAREDFROMTEAM - BATTLESTRINGS_TABLE_START] = sText_StickyWebDisappearedFromTeam,
+    [STRINGID_SHARPSTEELDISAPPEAREDFROMTEAM - BATTLESTRINGS_TABLE_START] = sText_SharpSteelDisappearedFromTeam,
     [STRINGID_IONDELUGEON - BATTLESTRINGS_TABLE_START] = sText_IonDelugeOn,
     [STRINGID_TOPSYTURVYSWITCHEDSTATS - BATTLESTRINGS_TABLE_START] = sText_TopsyTurvySwitchedStats,
     [STRINGID_TERRAINBECOMESMISTY - BATTLESTRINGS_TABLE_START] = sText_TerrainBecomesMisty,
@@ -1420,6 +1486,15 @@ const u8 *const gBattleStringsTable[BATTLESTRINGS_COUNT] =
     [STRINGID_TARGETTOOHEAVY - BATTLESTRINGS_TABLE_START] = sText_TargetTooHeavy,
     [STRINGID_ATTACKERLOSTELECTRICTYPE - BATTLESTRINGS_TABLE_START] = sText_AttackerLostElectricType,
     [STRINGID_PKMNSABILITYPREVENTSABILITY - BATTLESTRINGS_TABLE_START] = sText_PkmnsAbilityPreventsAbility,
+};
+
+const u16 gRaidStateStringIds[] =
+{
+    [B_MSG_RAID_STORM_STARTED] = STRINGID_STORMSTARTEDBREWING,
+    [B_MSG_GETTING_STRONGER] = STRINGID_STORMGETTINGSTRONGER,
+    [B_MSG_GETTING_EVEN_STRONGER] = STRINGID_STORMGETTINGEVENSTRONGER,
+    [B_MSG_GETTING_TOO_STRONG] = STRINGID_STORMGETTINGTOOSTRONG,
+    [B_MSG_PKMN_RELEASED_ENERGY] = STRINGID_RAIDPKMNRELEASEDENERGY,
 };
 
 const u16 gZEffectStringIds[] =
@@ -1477,8 +1552,10 @@ const u16 gDmgHazardsStringIds[] =
 {
     [B_MSG_PKMNHURTBYSPIKES]   = STRINGID_PKMNHURTBYSPIKES,
     [B_MSG_STEALTHROCKDMG]     = STRINGID_STEALTHROCKDMG,
+    [B_MSG_SHARPSTEELDMG]      = STRINGID_SHARPSTEELDMG,
     [B_MSG_POINTEDSTONESFLOAT] = STRINGID_POINTEDSTONESFLOAT,
-    [B_MSG_SPIKESSCATTERED]    = STRINGID_SPIKESSCATTERED
+    [B_MSG_SPIKESSCATTERED]    = STRINGID_SPIKESSCATTERED,
+    [B_MSG_SHARPSTEELFLOATS]   = STRINGID_SHARPSTEELFLOATS,
 };
 
 const u16 gSwitchInAbilityStringIds[] =
@@ -1887,6 +1964,21 @@ const u16 gRoomsStringIds[] =
 const u16 gStatusConditionsStringIds[] =
 {
     STRINGID_PKMNWASPOISONED, STRINGID_PKMNBADLYPOISONED, STRINGID_PKMNWASBURNED, STRINGID_PKMNWASPARALYZED, STRINGID_PKMNFELLASLEEP
+};
+
+const u16 gStatus2StringIds[] =
+{
+    STRINGID_PKMNWASCONFUSED, STRINGID_PKMNFELLINLOVE, STRINGID_TARGETCANTESCAPENOW, STRINGID_PKMNSUBJECTEDTOTORMENT
+};
+
+const u16 gDamageNonTypesStartStringIds[] =
+{
+    STRINGID_TEAMTRAPPEDWITHVINES, STRINGID_TEAMCAUGHTINVORTEX, STRINGID_TEAMSURROUNDEDBYFIRE, STRINGID_TEAMSURROUNDEDBYROCKS
+};
+
+const u16 gDamageNonTypesDmgStringIds[] =
+{
+    STRINGID_PKMNHURTBYVINES, STRINGID_PKMNHURTBYVORTEX, STRINGID_PKMNBURNINGUP, STRINGID_PKMNHURTBYROCKSTHROWN
 };
 
 const u8 gText_PkmnIsEvolving[] = _("What?\n{STR_VAR_1} is evolving!");
@@ -2652,6 +2744,8 @@ void BufferStringBattle(u16 stringID)
                 stringPtr = sText_TwoWildPkmnAppeared;
             else if (gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL)
                 stringPtr = sText_WildPkmnAppearedPause;
+            else if (gBattleTypeFlags & BATTLE_TYPE_RAID)
+                stringPtr = sText_RaidPkmnAppeared;
             else
                 stringPtr = sText_WildPkmnAppeared;
         }
@@ -2782,6 +2876,8 @@ void BufferStringBattle(u16 stringID)
     case STRINGID_USEDMOVE: // pokemon used a move msg
         if (gBattleStruct->zmove.active && gBattleStruct->zmove.activeSplit != SPLIT_STATUS)
             StringCopy(gBattleTextBuff3, GetZMoveName(gBattleMsgDataPtr->currentMove));
+        else if (IsMaxMove(gBattleMsgDataPtr->currentMove))
+            StringCopy(gBattleTextBuff3, GetMaxMoveName(gBattleMsgDataPtr->currentMove));
         else if (gBattleMsgDataPtr->currentMove >= MOVES_COUNT)
             StringCopy(gBattleTextBuff3, sATypeMove_Table[*(&gBattleStruct->stringMoveType)]);
         else
@@ -2933,6 +3029,8 @@ static void GetBattlerNick(u32 battlerId, u8 *dst)
     {                                                                   \
         if (gBattleTypeFlags & BATTLE_TYPE_TRAINER)                     \
             toCpy = sText_FoePkmnPrefix;                                \
+        else if (gBattleTypeFlags & BATTLE_TYPE_RAID)                   \
+            toCpy = sText_EmptyString8;                                 \
         else                                                            \
             toCpy = sText_WildPkmnPrefix;                               \
         while (*toCpy != EOS)                                           \

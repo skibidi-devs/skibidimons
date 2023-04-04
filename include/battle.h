@@ -3,6 +3,8 @@
 
 // should they be included here or included individually by every file?
 #include "constants/battle.h"
+#include "constants/form_change_types.h"
+#include "constants/battle_raid.h"
 #include "battle_main.h"
 #include "battle_message.h"
 #include "battle_util.h"
@@ -13,6 +15,8 @@
 #include "battle_bg.h"
 #include "pokeball.h"
 #include "battle_debug.h"
+#include "battle_dynamax.h"
+#include "battle_raid.h"
 
 #define GET_BATTLER_SIDE(battler)         (GetBattlerPosition(battler) & BIT_SIDE)
 #define GET_BATTLER_SIDE2(battler)        (gBattlerPositions[battler] & BIT_SIDE)
@@ -95,6 +99,7 @@ struct DisableStruct
     u8 laserFocusTimer;
     u8 throatChopTimer;
     u8 wrapTurns;
+    u8 tormentTimer:4; // used for G-Max Meltdown
     u8 usedMoves:4;
     u8 noRetreat:1;
     u8 tarShot:1;
@@ -144,6 +149,7 @@ struct ProtectStruct
     u16 beakBlastCharge:1;
     u16 quash:1;
     u16 shellTrap:1;
+    u16 maxGuarded:1;
     u16 silkTrapped:1;
     u32 physicalDmg;
     u32 specialDmg;
@@ -216,11 +222,14 @@ struct SideTimer
     u8 tailwindBattlerId;
     u8 luckyChantTimer;
     u8 luckyChantBattlerId;
+    u8 steelsurgeAmount;
     // Timers below this point are not swapped by Court Change
     u8 followmeTimer;
     u8 followmeTarget:3;
     u8 followmePowder:1; // Rage powder, does not affect grass type pokemon.
     u8 retaliateTimer;
+    u8 damageNonTypesTimer;
+    u8 damageNonTypesType;
 };
 
 struct FieldTimer
@@ -477,13 +486,7 @@ struct LinkBattlerHeader
 struct MegaEvolutionData
 {
     u8 toEvolve; // As flags using gBitTable.
-    u8 evolvedPartyIds[2]; // As flags using gBitTable;
     bool8 alreadyEvolved[4]; // Array id is used for mon position.
-    u16 evolvedSpecies[MAX_BATTLERS_COUNT];
-    u16 playerEvolvedSpecies;
-    u8 primalRevertedPartyIds[2]; // As flags using gBitTable;
-    u16 primalRevertedSpecies[MAX_BATTLERS_COUNT];
-    u16 playerPrimalRevertedSpecies;
     u8 battlerId;
     bool8 playerSelect;
     u8 triggerSpriteId;
@@ -515,6 +518,35 @@ struct ZMoveData
     u16 toBeUsed[MAX_BATTLERS_COUNT];  // z moves per battler to be used
     u16 baseMoves[MAX_BATTLERS_COUNT];
     u8 splits[MAX_BATTLERS_COUNT];
+};
+
+struct DynamaxData
+{
+    bool8 playerSelect;
+    u8 triggerSpriteId;
+    u8 indicatorSpriteId[MAX_BATTLERS_COUNT];
+    bool8 toDynamax[MAX_BATTLERS_COUNT];
+    bool8 alreadyDynamaxed[NUM_BATTLE_SIDES];
+    bool8 dynamaxed[MAX_BATTLERS_COUNT];
+    u8 dynamaxTurns[MAX_BATTLERS_COUNT];
+    u8 usingMaxMove[MAX_BATTLERS_COUNT];
+    u8 activeSplit;
+    u8 splits[MAX_BATTLERS_COUNT];
+    u16 baseMove[MAX_BATTLERS_COUNT]; // base move of Max Move
+    u16 lastUsedBaseMove;
+    u16 levelUpHP;
+};
+
+struct RaidBattleData
+{
+    u8 state;
+    u16 shield;           // stores either num. of shields (GEN_8) or amount of HP protected (GEN_9)
+    u8 nextShield;        // stores the HP threshold (0 to 100) that the next shield should occur
+    u8 shieldsRemaining;  // stores the remaining num. of shields
+    u8 energy;            // stores Dynamax Energy position or Tera Orb charge
+    bool8 usedShockwave:1;
+    bool8 movedTwice:1;
+    u8 barrierSpriteIds[MAX_BARRIER_COUNT]; // used for Gen 8-style shields
 };
 
 struct StolenItem
@@ -620,6 +652,8 @@ struct BattleStruct
     bool8 throwingPokeBall;
     struct MegaEvolutionData mega;
     struct ZMoveData zmove;
+    struct DynamaxData dynamax;
+    struct RaidBattleData raid;
     const u8 *trainerSlideMsg;
     bool8 trainerSlideLowHpMsgDone;
     u8 introState;
@@ -640,7 +674,7 @@ struct BattleStruct
     bool8 friskedAbility; // If identifies two mons, show the ability pop-up only once.
     u8 sameMoveTurns[MAX_BATTLERS_COUNT]; // For Metronome, number of times the same moves has been SUCCESFULLY used.
     u16 moveEffect2; // For Knock Off
-    u16 changedSpecies[PARTY_SIZE]; // For Zygarde or future forms when multiple mons can change into the same pokemon.
+    u16 changedSpecies[NUM_BATTLE_SIDES][PARTY_SIZE]; // For Zygarde or future forms when multiple mons can change into the same pokemon.
     u8 quickClawBattlerId;
     struct StolenItem itemStolen[PARTY_SIZE];  // Player's team that had items stolen (two bytes per party member)
     u8 blunderPolicy:1; // should blunder policy activate
@@ -661,7 +695,9 @@ struct BattleStruct
     u8 battleBondTransformed[NUM_BATTLE_SIDES]; // Bitfield for each party.
     u8 storedHealingWish:4; // Each battler as a bit.
     u8 storedLunarDance:4; // Each battler as a bit.
+    u8 bonusCritStages[MAX_BATTLERS_COUNT]; // G-Max Chi Strike boosts crit stages of allies.
     u16 supremeOverlordModifier[MAX_BATTLERS_COUNT];
+    u32 battleTimer; // frame counter to measure battle time length
 };
 
 #define F_DYNAMIC_TYPE_1 (1 << 6)

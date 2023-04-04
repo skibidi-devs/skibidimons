@@ -647,8 +647,40 @@
 #define STRINGID_STEALTHROCKDISAPPEAREDFROMTEAM       645
 #define STRINGID_COULDNTFULLYPROTECT                  646
 #define STRINGID_STOCKPILEDEFFECTWOREOFF              647
+#define STRINGID_SHARPSTEELFLOATS                     648
+#define STRINGID_SHARPSTEELDMG                        649
+#define STRINGID_PKMNBLEWAWAYSHARPSTEEL               650
+#define STRINGID_SHARPSTEELDISAPPEAREDFROMTEAM        651
+#define STRINGID_TEAMTRAPPEDWITHVINES                 652
+#define STRINGID_PKMNHURTBYVINES                      653
+#define STRINGID_TEAMCAUGHTINVORTEX                   654
+#define STRINGID_PKMNHURTBYVORTEX                     655
+#define STRINGID_TEAMSURROUNDEDBYFIRE                 656
+#define STRINGID_PKMNBURNINGUP                        657
+#define STRINGID_TEAMSURROUNDEDBYROCKS                658
+#define STRINGID_PKMNHURTBYROCKSTHROWN                659
+#define STRINGID_MOVEBLOCKEDBYDYNAMAX                 660
+#define STRINGID_PKMNAPPEARSMASSIVE                   661
+#define STRINGID_DYNAMAXENERGYGATHERED                662
+#define STRINGID_RAIDSHIELDAPPEARED                   663
+#define STRINGID_RAIDSHIELDDISAPPEARED                664
+#define STRINGID_CATCHRAIDMON                         665
+#define STRINGID_PKMNISTOOSTRONG                      666
+#define STRINGID_PKMNNULLIFIEDOTHERS                  667
+#define STRINGID_MOVEPREVENTEDBYDYNAMAX               668
+#define STRINGID_RAIDPKMNDISAPPEARED                  669
+#define STRINGID_STORMSTARTEDBREWING                  670
+#define STRINGID_STORMGETTINGSTRONGER                 671
+#define STRINGID_STORMGETTINGEVENSTRONGER             672
+#define STRINGID_STORMGETTINGTOOSTRONG                673
+#define STRINGID_BLOWNOUTOFDEN                        674
+#define STRINGID_PKMNREMOVEDEFFECTSFROMSELF           675
+#define STRINGID_ENERGYGATHEREDAROUNDPKMN             676
+#define STRINGID_PKMNBROKEITSSTANCE                   677
+#define STRINGID_RAIDNOTMUCHTIMELEFT                  678
+#define STRINGID_RAIDPKMNRELEASEDENERGY               679
 
-#define BATTLESTRINGS_COUNT                           648
+#define BATTLESTRINGS_COUNT                           680
 
 // This is the string id that gBattleStringsTable starts with.
 // String ids before this (e.g. STRINGID_INTROMSG) are not in the table,
@@ -936,7 +968,16 @@
 // gDmgHazardsStringIds
 #define B_MSG_PKMNHURTBYSPIKES   0
 #define B_MSG_STEALTHROCKDMG     1
-#define B_MSG_POINTEDSTONESFLOAT 2
-#define B_MSG_SPIKESSCATTERED    3
+#define B_MSG_SHARPSTEELDMG      2
+#define B_MSG_POINTEDSTONESFLOAT 3
+#define B_MSG_SPIKESSCATTERED    4
+#define B_MSG_SHARPSTEELFLOATS   5
+
+// gRaidStateStringIds
+#define B_MSG_RAID_STORM_STARTED        0
+#define B_MSG_GETTING_STRONGER          1
+#define B_MSG_GETTING_EVEN_STRONGER     2
+#define B_MSG_GETTING_TOO_STRONG        3
+#define B_MSG_PKMN_RELEASED_ENERGY      4
 
 #endif // GUARD_CONSTANTS_BATTLE_STRING_IDS_H

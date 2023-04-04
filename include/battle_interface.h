@@ -53,11 +53,17 @@ enum
 #define TAG_ALPHA_INDICATOR_TILE        0xD779
 #define TAG_OMEGA_INDICATOR_TILE        0xD77A
 #define TAG_ZMOVE_TRIGGER_TILE          0xD77B
+#define TAG_DYNAMAX_TRIGGER_TILE        0xD77C
+#define TAG_DYNAMAX_INDICATOR_TILE      0xD77D
 
 #define TAG_MEGA_TRIGGER_PAL            0xD777
 #define TAG_MEGA_INDICATOR_PAL          0xD778
-#define TAG_ALPHA_OMEGA_INDICATOR_PAL   0xD779 // Alpha and Omega indicators use the same palette as each of them only uses 4 different colors.
+#define TAG_MISC_INDICATOR_PAL          0xD779 // Alpha, Omega, and Dynamax indicators use the same palette as each of them only uses 4 different colors.
 #define TAG_ZMOVE_TRIGGER_PAL           0xD77B
+#define TAG_DYNAMAX_TRIGGER_PAL         0xD77C
+
+#define TAG_RAID_BARRIER_TILE           0xD77E
+
 
 enum
 {
@@ -85,6 +91,7 @@ void DestoryHealthboxSprite(u8 healthboxSpriteId);
 void DummyBattleInterfaceFunc(u8 healthboxSpriteId, bool8 isDoubleBattleBankOnly);
 void UpdateOamPriorityInAllHealthboxes(u8 priority, bool32 hideHpBoxes);
 void InitBattlerHealthboxCoords(u8 battler);
+void GetBattlerHealthboxCoords(u8 battler, s16 *x, s16 *y);
 void UpdateHpTextInHealthbox(u32 healthboxSpriteId, u32 maxOrCurrent, s16 currHp, s16 maxHp);
 void SwapHpBarsWithHpText(void);
 void ChangeMegaTriggerSprite(u8 spriteId, u8 animId);

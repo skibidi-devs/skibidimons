@@ -311,6 +311,11 @@ static void CreateHealthboxSprite(u8 battler)
             if (GetMonData(&gEnemyParty[gBattlerPartyIndexes[battler]], MON_DATA_HP) == 0)
                 SetHealthboxSpriteInvisible(healthboxSpriteId);
         }
+        // Hide healthboxes when catching a Raid boss.
+        if (gBattleStruct->raid.state & RAID_CATCHING_BOSS)
+        {
+            SetHealthboxSpriteInvisible(healthboxSpriteId);
+        }
         else if (!(gBattleTypeFlags & BATTLE_TYPE_SAFARI))
         {
             if (GetMonData(&gPlayerParty[gBattlerPartyIndexes[battler]], MON_DATA_HP) == 0 || GetMonData(&gPlayerParty[gBattlerPartyIndexes[battler]], MON_DATA_IS_EGG))

@@ -68,6 +68,16 @@ Debug_FlagsNotSetBattleConfigMessage_Text:
 	.string "'include/config/battle.h'!$"
 
 Debug_Script_1::
+	lockall
+	preparefixedraid 0, 5, SPECIES_SALAMENCE
+	special InitRaidIntro
+	waitstate
+	goto_if_eq VAR_RESULT, TRUE, Debug_DoFixedRaid
+	releaseall
+	end
+
+Debug_DoFixedRaid:
+	doraidbattle
 	end
 
 Debug_Script_2::

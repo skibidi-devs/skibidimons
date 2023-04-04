@@ -259,6 +259,19 @@
 #define VARIOUS_STORE_HEALING_WISH                  167
 #define VARIOUS_HIT_SWITCH_TARGET_FAILED            168
 #define VARIOUS_JUMP_IF_SHELL_TRAP                  169
+#define VARIOUS_SET_MAX_MOVE_EFFECT                 170
+#define VARIOUS_JUMP_IF_NO_VALID_TARGETS            171
+#define VARIOUS_SET_STEELSURGE                      172
+#define VARIOUS_DAMAGE_NON_TYPES                    173
+#define VARIOUS_TRY_SET_STATUS1                     174
+#define VARIOUS_TRY_SET_STATUS2                     175
+#define VARIOUS_TRY_HEAL_SIXTH_HP                   176
+#define VARIOUS_TRY_RECYCLE_BERRY                   177
+#define VARIOUS_UPDATE_DYNAMAX                      178
+#define VARIOUS_JUMP_IF_TARGET_DYNAMAXED            179
+#define VARIOUS_JUMP_IF_NO_BALLS                    180
+#define VARIOUS_CATCH_RAID_BOSS                     181
+#define VARIOUS_HIDE_HEALTHBOXES                    182
 
 // Cmd_manipulatedamage
 #define DMG_CHANGE_SIGN            0
@@ -334,8 +347,9 @@
 #define MOVEEND_EMERGENCY_EXIT                    32
 #define MOVEEND_WEATHER_FORM                      33
 #define MOVEEND_SYMBIOSIS                         34
-#define MOVEEND_CLEAR_BITS                        35
-#define MOVEEND_COUNT                             36
+#define MOVEEND_RAID                              35
+#define MOVEEND_CLEAR_BITS                        36
+#define MOVEEND_COUNT                             37
 
 // switch cases
 #define B_SWITCH_NORMAL     0
