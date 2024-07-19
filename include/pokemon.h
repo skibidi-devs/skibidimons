@@ -3,6 +3,7 @@
 
 #include "sprite.h"
 #include "constants/items.h"
+#include "constants/regions.h"
 #include "constants/region_map_sections.h"
 #include "constants/map_groups.h"
 #include "contest_effect.h"
@@ -804,5 +805,7 @@ u16 GetSpeciesPreEvolution(u16 species);
 void HealPokemon(struct Pokemon *mon);
 void HealBoxPokemon(struct BoxPokemon *boxMon);
 const u8 *GetMoveName(u16 moveId);
+u16 GetRegionalForm(u32 species, u32 region);
+bool32 IsSpeciesForeignRegionalForm(u32 species, u32 currentRegion);
 
 #endif // GUARD_POKEMON_H

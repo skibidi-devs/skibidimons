@@ -1039,7 +1039,8 @@ static u16 DetermineEggSpeciesAndParentSlots(struct DayCare *daycare, u8 *parent
     u16 i;
     u16 species[DAYCARE_MON_COUNT];
     u16 eggSpecies, parentSpecies;
-    bool8 hasMotherEverstone, hasFatherEverstone;
+    bool32 hasMotherEverstone, hasFatherEverstone, motherIsForeign, fatherIsForeign;
+    bool32 motherEggSpecies, fatherEggSpecies;
 
     for (i = 0; i < DAYCARE_MON_COUNT; i++)
     {
@@ -1056,15 +1057,21 @@ static u16 DetermineEggSpeciesAndParentSlots(struct DayCare *daycare, u8 *parent
         }
     }
 
+    motherEggSpecies = GetEggSpecies(species[parentSlots[0]]);
+    fatherEggSpecies = GetEggSpecies(species[parentSlots[1]]);
     hasMotherEverstone = ItemId_GetHoldEffect(GetBoxMonData(&daycare->mons[0].mon, MON_DATA_HELD_ITEM)) == HOLD_EFFECT_PREVENT_EVOLVE;
     hasFatherEverstone = ItemId_GetHoldEffect(GetBoxMonData(&daycare->mons[1].mon, MON_DATA_HELD_ITEM)) == HOLD_EFFECT_PREVENT_EVOLVE;
+    motherIsForeign = IsSpeciesForeignRegionalForm(motherEggSpecies, REGION_CURRENT);
+    fatherIsForeign = IsSpeciesForeignRegionalForm(fatherEggSpecies, REGION_CURRENT);
 
-    if (hasMotherEverstone)
-        parentSpecies = species[parentSlots[0]];
-    else if (hasFatherEverstone && GET_BASE_SPECIES_ID(GetEggSpecies(species[parentSlots[0]])) == GET_BASE_SPECIES_ID(GetEggSpecies(species[parentSlots[1]])))
-        parentSpecies = species[parentSlots[1]];
+    if (motherIsForeign && hasMotherEverstone)
+        parentSpecies = motherEggSpecies;
+    else if (fatherIsForeign && hasFatherEverstone && GET_BASE_SPECIES_ID(motherEggSpecies) == GET_BASE_SPECIES_ID(fatherEggSpecies))
+        parentSpecies = fatherEggSpecies;
+    else if (motherIsForeign)
+        parentSpecies = GetRegionalForm(motherEggSpecies, REGION_CURRENT);
     else
-        parentSpecies = GET_BASE_SPECIES_ID(GetEggSpecies(species[parentSlots[0]]));
+        parentSpecies = motherEggSpecies;
 
     eggSpecies = GetEggSpecies(parentSpecies);
 

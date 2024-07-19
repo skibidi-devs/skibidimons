@@ -52,6 +52,7 @@
 #include "constants/items.h"
 #include "constants/layouts.h"
 #include "constants/moves.h"
+#include "constants/regions.h"
 #include "constants/songs.h"
 #include "constants/trainers.h"
 #include "constants/union_room.h"
@@ -6572,4 +6573,34 @@ u16 GetSpeciesPreEvolution(u16 species)
 const u8 *GetMoveName(u16 moveId)
 {
     return gMovesInfo[moveId].name;
+}
+
+u16 GetRegionalForm(u32 species, u32 region)
+{
+    u32 formId = 0;
+    u32 foundSpecies = 0;
+
+    if (GetSpeciesFormTable(species) != NULL)
+    {
+        for (formId = 0; GetSpeciesFormTable(species)[formId] != FORM_SPECIES_END; formId++)
+        {
+            foundSpecies = GetSpeciesFormTable(species)[formId];
+            if ((gSpeciesInfo[foundSpecies].isAlolanForm   && region == REGION_ALOLA)
+             || (gSpeciesInfo[foundSpecies].isGalarianForm && region == REGION_GALAR)
+             || (gSpeciesInfo[foundSpecies].isHisuianForm  && region == REGION_HISUI)
+             || (gSpeciesInfo[foundSpecies].isPaldeanForm  && region == REGION_PALDEA))
+                return foundSpecies;
+        }
+    }
+    return species;
+}
+
+bool32 IsSpeciesForeignRegionalForm(u32 species, u32 currentRegion)
+{
+    if ((gSpeciesInfo[species].isAlolanForm   && currentRegion != REGION_ALOLA)
+     || (gSpeciesInfo[species].isGalarianForm && currentRegion != REGION_GALAR)
+     || (gSpeciesInfo[species].isHisuianForm  && currentRegion != REGION_HISUI)
+     || (gSpeciesInfo[species].isPaldeanForm  && currentRegion != REGION_PALDEA))
+        return TRUE;
+    return FALSE;
 }
