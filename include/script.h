@@ -11,6 +11,8 @@ struct ScriptContext
     u8 stackDepth;
     u8 mode;
     u8 comparisonResult;
+    bool8 rejectMutating:1;
+    bool8 isTrainerSee:1;
     u8 (*nativePtr)(void);
     const u8 *scriptPtr;
     const u8 *stack[20];
@@ -20,6 +22,9 @@ struct ScriptContext
 };
 
 #define ScriptReadByte(ctx) (*(ctx->scriptPtr++))
+
+// Flags for Script_HasNoEffect.
+#define SCRIPT_TRAINER_SEE (1 << 0)
 
 void InitScriptContext(struct ScriptContext *ctx, void *cmdTable, void *cmdTableEnd);
 u8 SetupBytecodeScript(struct ScriptContext *ctx, const u8 *ptr);
@@ -59,6 +64,12 @@ const u8 *GetRamScript(u8 objectId, const u8 *script);
 bool32 ValidateSavedRamScript(void);
 u8 *GetSavedRamScriptIfValid(void);
 void InitRamScript_NoObjectEvent(u8 *script, u16 scriptSize);
+bool32 Script_HasNoEffect(const u8 *script, u32 flags);
+const u8 *Script_FindTrainerBattleCommand(const u8 *script);
+bool32 Script_IsMutatingFlag(u32 flagId);
+bool32 Script_IsMutatingVar(u32 varId);
+bool32 Script_IsMutatingSpecial(u32 specialId);
+bool32 Script_IsMutatingNative(void (*func)(struct ScriptContext *));
 
 // srccmd.h
 void SetMovingNpcId(u16 npcId);

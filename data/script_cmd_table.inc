@@ -1,52 +1,54 @@
+#define MUT_INSTRUMENTED(symbol) ((symbol) + 0x02000000)
+
 	.align 2
 gScriptCmdTable::
-	.4byte ScrCmd_nop      	                        @ 0x00
-	.4byte ScrCmd_nop1                              @ 0x01
-	.4byte ScrCmd_end      	                        @ 0x02
-	.4byte ScrCmd_return                            @ 0x03
-	.4byte ScrCmd_call                              @ 0x04
-	.4byte ScrCmd_goto                              @ 0x05
-	.4byte ScrCmd_goto_if                           @ 0x06
-	.4byte ScrCmd_call_if                           @ 0x07
-	.4byte ScrCmd_gotostd                           @ 0x08
-	.4byte ScrCmd_callstd                           @ 0x09
-	.4byte ScrCmd_gotostd_if                        @ 0x0a
-	.4byte ScrCmd_callstd_if                        @ 0x0b
+	.4byte MUT_INSTRUMENTED(ScrCmd_nop)             @ 0x00
+	.4byte MUT_INSTRUMENTED(ScrCmd_nop1)            @ 0x01
+	.4byte MUT_INSTRUMENTED(ScrCmd_end)             @ 0x02
+	.4byte MUT_INSTRUMENTED(ScrCmd_return)          @ 0x03
+	.4byte MUT_INSTRUMENTED(ScrCmd_call)            @ 0x04
+	.4byte MUT_INSTRUMENTED(ScrCmd_goto)            @ 0x05
+	.4byte MUT_INSTRUMENTED(ScrCmd_goto_if)         @ 0x06
+	.4byte MUT_INSTRUMENTED(ScrCmd_call_if)         @ 0x07
+	.4byte MUT_INSTRUMENTED(ScrCmd_gotostd)         @ 0x08
+	.4byte MUT_INSTRUMENTED(ScrCmd_callstd)         @ 0x09
+	.4byte MUT_INSTRUMENTED(ScrCmd_gotostd_if)      @ 0x0a
+	.4byte MUT_INSTRUMENTED(ScrCmd_callstd_if)      @ 0x0b
 	.4byte ScrCmd_returnram                         @ 0x0c
 	.4byte ScrCmd_endram                            @ 0x0d
 	.4byte ScrCmd_setmysteryeventstatus             @ 0x0e
-	.4byte ScrCmd_loadword                          @ 0x0f
-	.4byte ScrCmd_loadbyte                          @ 0x10
+	.4byte MUT_INSTRUMENTED(ScrCmd_loadword)        @ 0x0f
+	.4byte MUT_INSTRUMENTED(ScrCmd_loadbyte)        @ 0x10
 	.4byte ScrCmd_setptr                            @ 0x11
-	.4byte ScrCmd_loadbytefromptr                   @ 0x12
+	.4byte MUT_INSTRUMENTED(ScrCmd_loadbytefromptr) @ 0x12
 	.4byte ScrCmd_setptrbyte                        @ 0x13
-	.4byte ScrCmd_copylocal                         @ 0x14
+	.4byte MUT_INSTRUMENTED(ScrCmd_copylocal)       @ 0x14
 	.4byte ScrCmd_copybyte                          @ 0x15
-	.4byte ScrCmd_setvar                            @ 0x16
-	.4byte ScrCmd_addvar                            @ 0x17
-	.4byte ScrCmd_subvar                            @ 0x18
-	.4byte ScrCmd_copyvar                           @ 0x19
-	.4byte ScrCmd_setorcopyvar                      @ 0x1a
-	.4byte ScrCmd_compare_local_to_local            @ 0x1b
-	.4byte ScrCmd_compare_local_to_value            @ 0x1c
-	.4byte ScrCmd_compare_local_to_ptr              @ 0x1d
-	.4byte ScrCmd_compare_ptr_to_local              @ 0x1e
-	.4byte ScrCmd_compare_ptr_to_value              @ 0x1f
-	.4byte ScrCmd_compare_ptr_to_ptr                @ 0x20
-	.4byte ScrCmd_compare_var_to_value              @ 0x21
-	.4byte ScrCmd_compare_var_to_var                @ 0x22
-	.4byte ScrCmd_callnative                        @ 0x23
-	.4byte ScrCmd_gotonative                        @ 0x24
-	.4byte ScrCmd_special                           @ 0x25
-	.4byte ScrCmd_specialvar                        @ 0x26
+	.4byte MUT_INSTRUMENTED(ScrCmd_setvar)          @ 0x16
+	.4byte MUT_INSTRUMENTED(ScrCmd_addvar)          @ 0x17
+	.4byte MUT_INSTRUMENTED(ScrCmd_subvar)          @ 0x18
+	.4byte MUT_INSTRUMENTED(ScrCmd_copyvar)         @ 0x19
+	.4byte MUT_INSTRUMENTED(ScrCmd_setorcopyvar)    @ 0x1a
+	.4byte MUT_INSTRUMENTED(ScrCmd_compare_local_to_local) @ 0x1b
+	.4byte MUT_INSTRUMENTED(ScrCmd_compare_local_to_value) @ 0x1c
+	.4byte MUT_INSTRUMENTED(ScrCmd_compare_local_to_ptr) @ 0x1d
+	.4byte MUT_INSTRUMENTED(ScrCmd_compare_ptr_to_local) @ 0x1e
+	.4byte MUT_INSTRUMENTED(ScrCmd_compare_ptr_to_value) @ 0x1f
+	.4byte MUT_INSTRUMENTED(ScrCmd_compare_ptr_to_ptr) @ 0x20
+	.4byte MUT_INSTRUMENTED(ScrCmd_compare_var_to_value) @ 0x21
+	.4byte MUT_INSTRUMENTED(ScrCmd_compare_var_to_var) @ 0x22
+	.4byte MUT_INSTRUMENTED(ScrCmd_callnative)      @ 0x23
+	.4byte MUT_INSTRUMENTED(ScrCmd_gotonative)      @ 0x24
+	.4byte MUT_INSTRUMENTED(ScrCmd_special)         @ 0x25
+	.4byte MUT_INSTRUMENTED(ScrCmd_specialvar)      @ 0x26
 	.4byte ScrCmd_waitstate                         @ 0x27
 	.4byte ScrCmd_delay                             @ 0x28
-	.4byte ScrCmd_setflag                           @ 0x29
-	.4byte ScrCmd_clearflag                         @ 0x2a
-	.4byte ScrCmd_checkflag                         @ 0x2b
+	.4byte MUT_INSTRUMENTED(ScrCmd_setflag)         @ 0x29
+	.4byte MUT_INSTRUMENTED(ScrCmd_clearflag)       @ 0x2a
+	.4byte MUT_INSTRUMENTED(ScrCmd_checkflag)       @ 0x2b
 	.4byte ScrCmd_initclock                         @ 0x2c
 	.4byte ScrCmd_dotimebasedevents                 @ 0x2d
-	.4byte ScrCmd_gettime                           @ 0x2e
+	.4byte MUT_INSTRUMENTED(ScrCmd_gettime)         @ 0x2e
 	.4byte ScrCmd_playse                            @ 0x2f
 	.4byte ScrCmd_waitse                            @ 0x30
 	.4byte ScrCmd_playfanfare                       @ 0x31
@@ -66,19 +68,19 @@ gScriptCmdTable::
 	.4byte ScrCmd_setdynamicwarp                    @ 0x3f
 	.4byte ScrCmd_setdivewarp                       @ 0x40
 	.4byte ScrCmd_setholewarp                       @ 0x41
-	.4byte ScrCmd_getplayerxy                       @ 0x42
-	.4byte ScrCmd_getpartysize                      @ 0x43
+	.4byte MUT_INSTRUMENTED(ScrCmd_getplayerxy)     @ 0x42
+	.4byte MUT_INSTRUMENTED(ScrCmd_getpartysize)    @ 0x43
 	.4byte ScrCmd_additem                           @ 0x44
 	.4byte ScrCmd_removeitem                        @ 0x45
-	.4byte ScrCmd_checkitemspace                    @ 0x46
-	.4byte ScrCmd_checkitem                         @ 0x47
-	.4byte ScrCmd_checkitemtype                     @ 0x48
+	.4byte MUT_INSTRUMENTED(ScrCmd_checkitemspace)  @ 0x46
+	.4byte MUT_INSTRUMENTED(ScrCmd_checkitem)       @ 0x47
+	.4byte MUT_INSTRUMENTED(ScrCmd_checkitemtype)   @ 0x48
 	.4byte ScrCmd_addpcitem                         @ 0x49
-	.4byte ScrCmd_checkpcitem                       @ 0x4a
+	.4byte MUT_INSTRUMENTED(ScrCmd_checkpcitem)     @ 0x4a
 	.4byte ScrCmd_adddecoration                     @ 0x4b
 	.4byte ScrCmd_removedecoration                  @ 0x4c
-	.4byte ScrCmd_checkdecor                        @ 0x4d
-	.4byte ScrCmd_checkdecorspace                   @ 0x4e
+	.4byte MUT_INSTRUMENTED(ScrCmd_checkdecor)      @ 0x4d
+	.4byte MUT_INSTRUMENTED(ScrCmd_checkdecorspace) @ 0x4e
 	.4byte ScrCmd_applymovement                     @ 0x4f
 	.4byte ScrCmd_applymovementat                   @ 0x50
 	.4byte ScrCmd_waitmovement                      @ 0x51
@@ -96,7 +98,7 @@ gScriptCmdTable::
 	.4byte ScrCmd_dotrainerbattle                   @ 0x5d
 	.4byte ScrCmd_gotopostbattlescript              @ 0x5e
 	.4byte ScrCmd_gotobeatenscript                  @ 0x5f
-	.4byte ScrCmd_checktrainerflag                  @ 0x60
+	.4byte MUT_INSTRUMENTED(ScrCmd_checktrainerflag) @ 0x60
 	.4byte ScrCmd_settrainerflag                    @ 0x61
 	.4byte ScrCmd_cleartrainerflag                  @ 0x62
 	.4byte ScrCmd_setobjectxyperm                   @ 0x63
@@ -124,16 +126,16 @@ gScriptCmdTable::
 	.4byte ScrCmd_nop1                              @ 0x79
 	.4byte ScrCmd_giveegg                           @ 0x7a
 	.4byte ScrCmd_setmonmove                        @ 0x7b
-	.4byte ScrCmd_checkpartymove                    @ 0x7c
-	.4byte ScrCmd_bufferspeciesname                 @ 0x7d
+	.4byte MUT_INSTRUMENTED(ScrCmd_checkpartymove)  @ 0x7c
+	.4byte MUT_INSTRUMENTED(ScrCmd_bufferspeciesname) @ 0x7d
 	.4byte ScrCmd_bufferleadmonspeciesname          @ 0x7e
-	.4byte ScrCmd_bufferpartymonnick                @ 0x7f
-	.4byte ScrCmd_bufferitemname                    @ 0x80
-	.4byte ScrCmd_bufferdecorationname              @ 0x81
-	.4byte ScrCmd_buffermovename                    @ 0x82
-	.4byte ScrCmd_buffernumberstring                @ 0x83
-	.4byte ScrCmd_bufferstdstring                   @ 0x84
-	.4byte ScrCmd_bufferstring                      @ 0x85
+	.4byte MUT_INSTRUMENTED(ScrCmd_bufferpartymonnick) @ 0x7f
+	.4byte MUT_INSTRUMENTED(ScrCmd_bufferitemname)  @ 0x80
+	.4byte MUT_INSTRUMENTED(ScrCmd_bufferdecorationname) @ 0x81
+	.4byte MUT_INSTRUMENTED(ScrCmd_buffermovename)  @ 0x82
+	.4byte MUT_INSTRUMENTED(ScrCmd_buffernumberstring) @ 0x83
+	.4byte MUT_INSTRUMENTED(ScrCmd_bufferstdstring) @ 0x84
+	.4byte MUT_INSTRUMENTED(ScrCmd_bufferstring)    @ 0x85
 	.4byte ScrCmd_pokemart                          @ 0x86
 	.4byte ScrCmd_pokemartdecoration                @ 0x87
 	.4byte ScrCmd_pokemartdecoration2               @ 0x88
@@ -143,14 +145,14 @@ gScriptCmdTable::
 	.4byte ScrCmd_startcontest                      @ 0x8c
 	.4byte ScrCmd_showcontestresults                @ 0x8d
 	.4byte ScrCmd_contestlinktransfer               @ 0x8e
-	.4byte ScrCmd_random                            @ 0x8f
+	.4byte MUT_INSTRUMENTED(ScrCmd_random)          @ 0x8f
 	.4byte ScrCmd_addmoney                          @ 0x90
 	.4byte ScrCmd_removemoney                       @ 0x91
-	.4byte ScrCmd_checkmoney                        @ 0x92
+	.4byte MUT_INSTRUMENTED(ScrCmd_checkmoney)      @ 0x92
 	.4byte ScrCmd_showmoneybox                      @ 0x93
 	.4byte ScrCmd_hidemoneybox                      @ 0x94
 	.4byte ScrCmd_updatemoneybox                    @ 0x95
-	.4byte ScrCmd_getpokenewsactive                 @ 0x96
+	.4byte MUT_INSTRUMENTED(ScrCmd_getpokenewsactive) @ 0x96
 	.4byte ScrCmd_fadescreen                        @ 0x97
 	.4byte ScrCmd_fadescreenspeed                   @ 0x98
 	.4byte ScrCmd_setflashlevel                     @ 0x99
@@ -160,7 +162,7 @@ gScriptCmdTable::
 	.4byte ScrCmd_setfieldeffectargument            @ 0x9d
 	.4byte ScrCmd_waitfieldeffect                   @ 0x9e
 	.4byte ScrCmd_setrespawn                        @ 0x9f
-	.4byte ScrCmd_checkplayergender                 @ 0xa0
+	.4byte MUT_INSTRUMENTED(ScrCmd_checkplayergender) @ 0xa0
 	.4byte ScrCmd_playmoncry                        @ 0xa1
 	.4byte ScrCmd_setmetatile                       @ 0xa2
 	.4byte ScrCmd_resetweather                      @ 0xa3
@@ -179,26 +181,26 @@ gScriptCmdTable::
 	.4byte ScrCmd_setdoorclosed                     @ 0xb0
 	.4byte ScrCmd_addelevmenuitem                   @ 0xb1
 	.4byte ScrCmd_showelevmenu                      @ 0xb2
-	.4byte ScrCmd_checkcoins                        @ 0xb3
+	.4byte MUT_INSTRUMENTED(ScrCmd_checkcoins)      @ 0xb3
 	.4byte ScrCmd_addcoins                          @ 0xb4
 	.4byte ScrCmd_removecoins                       @ 0xb5
 	.4byte ScrCmd_setwildbattle                     @ 0xb6
 	.4byte ScrCmd_dowildbattle                      @ 0xb7
 	.4byte ScrCmd_setvaddress                       @ 0xb8
-	.4byte ScrCmd_vgoto                             @ 0xb9
-	.4byte ScrCmd_vcall                             @ 0xba
-	.4byte ScrCmd_vgoto_if                          @ 0xbb
-	.4byte ScrCmd_vcall_if                          @ 0xbc
+	.4byte MUT_INSTRUMENTED(ScrCmd_vgoto)           @ 0xb9
+	.4byte MUT_INSTRUMENTED(ScrCmd_vcall)           @ 0xba
+	.4byte MUT_INSTRUMENTED(ScrCmd_vgoto_if)        @ 0xbb
+	.4byte MUT_INSTRUMENTED(ScrCmd_vcall_if)        @ 0xbc
 	.4byte ScrCmd_vmessage                          @ 0xbd
-	.4byte ScrCmd_vbuffermessage                    @ 0xbe
-	.4byte ScrCmd_vbufferstring                     @ 0xbf
+	.4byte MUT_INSTRUMENTED(ScrCmd_vbuffermessage)  @ 0xbe
+	.4byte MUT_INSTRUMENTED(ScrCmd_vbufferstring)   @ 0xbf
 	.4byte ScrCmd_showcoinsbox                      @ 0xc0
 	.4byte ScrCmd_hidecoinsbox                      @ 0xc1
 	.4byte ScrCmd_updatecoinsbox                    @ 0xc2
 	.4byte ScrCmd_incrementgamestat                 @ 0xc3
 	.4byte ScrCmd_setescapewarp                     @ 0xc4
 	.4byte ScrCmd_waitmoncry                        @ 0xc5
-	.4byte ScrCmd_bufferboxname                     @ 0xc6
+	.4byte MUT_INSTRUMENTED(ScrCmd_bufferboxname)   @ 0xc6
 	.4byte ScrCmd_nop1                              @ 0xc7
 	.4byte ScrCmd_nop1                              @ 0xc8
 	.4byte ScrCmd_nop1                              @ 0xc9
@@ -206,7 +208,7 @@ gScriptCmdTable::
 	.4byte ScrCmd_nop1                              @ 0xcb
 	.4byte ScrCmd_nop1                              @ 0xcc
 	.4byte ScrCmd_setmodernfatefulencounter         @ 0xcd
-	.4byte ScrCmd_checkmodernfatefulencounter       @ 0xce
+	.4byte MUT_INSTRUMENTED(ScrCmd_checkmodernfatefulencounter) @ 0xce
 	.4byte ScrCmd_trywondercardscript               @ 0xcf
 	.4byte ScrCmd_nop1                              @ 0xd0
 	.4byte ScrCmd_warpspinenter                     @ 0xd1
@@ -221,14 +223,16 @@ gScriptCmdTable::
 	.4byte ScrCmd_closebraillemessage               @ 0xda
 	.4byte ScrCmd_messageinstant                    @ 0xdb
 	.4byte ScrCmd_fadescreenswapbuffers             @ 0xdc
-	.4byte ScrCmd_buffertrainerclassname            @ 0xdd
-	.4byte ScrCmd_buffertrainername                 @ 0xde
+	.4byte MUT_INSTRUMENTED(ScrCmd_buffertrainerclassname) @ 0xdd
+	.4byte MUT_INSTRUMENTED(ScrCmd_buffertrainername) @ 0xde
 	.4byte ScrCmd_pokenavcall                       @ 0xdf
 	.4byte ScrCmd_warpwhitefade                     @ 0xe0
-	.4byte ScrCmd_buffercontestname                 @ 0xe1
-	.4byte ScrCmd_bufferitemnameplural              @ 0xe2
+	.4byte MUT_INSTRUMENTED(ScrCmd_buffercontestname) @ 0xe1
+	.4byte MUT_INSTRUMENTED(ScrCmd_bufferitemnameplural) @ 0xe2
 	.4byte ScrCmd_dynmultichoice                    @ 0xe3
 	.4byte ScrCmd_dynmultipush                      @ 0xe4
 
 gScriptCmdTableEnd::
 	.4byte ScrCmd_nop
+
+#undef MUT_INSTRUMENTED
