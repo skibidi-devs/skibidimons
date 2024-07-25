@@ -53,6 +53,7 @@ asm(".set FALSE, 0\n"
     ".set SPECIAL_VARS_END, " STR(SPECIAL_VARS_END) "\n");
 
 // Make overworld script macros available.
+asm(".include \"constants/gba_constants.inc\"\n");
 asm(".include \"asm/macros/event.inc\"\n");
 
 #endif
