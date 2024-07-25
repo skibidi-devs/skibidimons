@@ -526,6 +526,7 @@ bool8 LoadTrainerObjectScript(void)
 
 static inline bool32 Script_MutatingInstrumented(ScrCmdFunc func)
 {
+    // In the first ROM mirror.
     return (((uintptr_t)func) & 0x0E000000) == 0x0A000000;
 }
 
@@ -542,11 +543,13 @@ bool32 Script_IsMutatingVar(u32 varId)
 bool32 Script_IsMutatingSpecial(u32 specialId)
 {
     extern const void *gSpecials[];
+    // Not in a ROM mirror.
     return (((uintptr_t)gSpecials[specialId]) & 0x0E000000) == 0x08000000;
 }
 
 bool32 Script_IsMutatingNative(void (*func)(struct ScriptContext *))
 {
+    // Not in a ROM mirror.
     return (((uintptr_t)func) & 0x0E000000) == 0x08000000;
 }
 

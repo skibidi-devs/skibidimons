@@ -5,7 +5,7 @@
 	.if \player_visible
 	.4byte \ptr
 	.else
-	.4byte \ptr + 0x02000000
+	.4byte \ptr + ROM_SIZE
 	.endif
 	.endm
 
