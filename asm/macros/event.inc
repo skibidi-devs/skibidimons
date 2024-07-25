@@ -251,6 +251,12 @@
 	.endm
 
 	@ Calls the native C function stored at func.
+	@ player_visible should be set to FALSE if the native cannot
+	@ have a "player-visible" effect in the sense documented in
+	@ Script_HasNoEffect. If the native sometimes has a player-
+	@ visible effect when called with its arguments, it must be
+	@ treated as always having a player-visible effect and set to
+	@ TRUE.
 	.macro callnative func:req, player_visible=TRUE
 	.byte 0x23
 	.if \player_visible

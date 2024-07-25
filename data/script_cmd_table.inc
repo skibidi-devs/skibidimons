@@ -1,3 +1,8 @@
+@ MUT_INSTRUMENTED should be attached to opcodes which may not have a
+@ "player-visible" effect in the sense documented in Script_HasNoEffect.
+@ If the opcode sometimes has a player-visible effect then the ScrCmd_
+@ function should return TRUE instead of causing that effect when
+@ ctx->rejectMutating is set. See 'ScrCmd_setvar' for an example.
 #define MUT_INSTRUMENTED(symbol) ((symbol) + ROM_SIZE)
 
 	.align 2

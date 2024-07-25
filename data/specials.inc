@@ -1,3 +1,7 @@
+@ player_visible should be set to 0 if the special cannot have a
+@ "player-visible" effect in the sense documented in Script_HasNoEffect.
+@ If the special sometimes has a player-visible effect, it must be
+@ treated as always having a player-visible effect and set to 1.
 .macro def_special ptr, player_visible=1
 .global SPECIAL_\ptr
 .set SPECIAL_\ptr, __special__
