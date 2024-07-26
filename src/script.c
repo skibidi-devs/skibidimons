@@ -527,11 +527,6 @@ static inline bool32 Script_IsMutatingCommand(ScrCmdFunc func)
     return (((uintptr_t)func) & 0x0E000000) == 0x08000000;
 }
 
-bool32 Script_IsMutatingFlag(u32 flagId)
-{
-    return !(SPECIAL_FLAGS_START <= flagId && flagId <= SPECIAL_FLAGS_END);
-}
-
 bool32 Script_IsMutatingVar(u32 varId)
 {
     return !(SPECIAL_VARS_START <= varId && varId <= SPECIAL_VARS_END);

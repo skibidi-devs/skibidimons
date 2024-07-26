@@ -66,7 +66,6 @@ u8 *GetSavedRamScriptIfValid(void);
 void InitRamScript_NoObjectEvent(u8 *script, u16 scriptSize);
 bool32 Script_HasNoEffect(const u8 *script, u32 flags);
 const u8 *Script_FindTrainerBattleCommand(const u8 *script);
-bool32 Script_IsMutatingFlag(u32 flagId);
 bool32 Script_IsMutatingVar(u32 varId);
 bool32 Script_IsMutatingSpecial(u32 specialId);
 bool32 Script_IsMutatingNative(void (*func)(struct ScriptContext *));
