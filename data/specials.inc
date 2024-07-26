@@ -2,6 +2,8 @@
 @ effect in the sense documented in Script_HasNoEffect. If the special
 @ sometimes has a mutating effect, it must be treated as always having a
 @ mutating effect and set to 1.
+@ + ROM_SIZE references ptr through one of the ROM mirrors, it will
+@ still function normally.
 .macro def_special ptr, mutating=1
 .global SPECIAL_\ptr
 .set SPECIAL_\ptr, __special__

@@ -256,6 +256,8 @@
 	@ If the native sometimes has a mutating effect when called with
 	@ its arguments, it must be treated as always having a mutating
 	@ effect and set to TRUE.
+	@ + ROM_SIZE references func through one of the ROM mirrors, it
+	@ will still function normally.
 	.macro callnative func:req, mutating=TRUE
 	.byte 0x23
 	.if \mutating

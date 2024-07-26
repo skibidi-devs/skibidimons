@@ -615,8 +615,6 @@ bool8 ScrCmd_checkdecor(struct ScriptContext *ctx)
 bool8 ScrCmd_setflag(struct ScriptContext *ctx)
 {
     u32 flagId = ScriptReadHalfword(ctx);
-    if (ctx->rejectMutating && Script_IsMutatingFlag(flagId))
-        return TRUE;
     FlagSet(flagId);
     return FALSE;
 }
@@ -624,8 +622,6 @@ bool8 ScrCmd_setflag(struct ScriptContext *ctx)
 bool8 ScrCmd_clearflag(struct ScriptContext *ctx)
 {
     u32 flagId = ScriptReadHalfword(ctx);
-    if (ctx->rejectMutating && Script_IsMutatingFlag(flagId))
-        return TRUE;
     FlagClear(flagId);
     return FALSE;
 }
@@ -1271,6 +1267,10 @@ bool8 ScrCmd_turnvobject(struct ScriptContext *ctx)
 // The player is frozen after waiting for their current movement to finish.
 bool8 ScrCmd_lockall(struct ScriptContext *ctx)
 {
+    // As a special case, consider this non-mutating.
+    if (ctx->rejectMutating)
+        return FALSE;
+
     if (IsOverworldLinkActive())
     {
         return FALSE;
@@ -1287,6 +1287,10 @@ bool8 ScrCmd_lockall(struct ScriptContext *ctx)
 // The player and selected object are frozen after waiting for their current movement to finish.
 bool8 ScrCmd_lock(struct ScriptContext *ctx)
 {
+    // As a special case, consider this non-mutating.
+    if (ctx->rejectMutating)
+        return FALSE;
+
     if (IsOverworldLinkActive())
     {
         return FALSE;
@@ -1316,8 +1320,14 @@ bool8 ScrCmd_lock(struct ScriptContext *ctx)
 bool8 ScrCmd_releaseall(struct ScriptContext *ctx)
 {
     u8 playerObjectId;
-    struct ObjectEvent *followerObject = GetFollowerObject();
+    struct ObjectEvent *followerObject;
+
+    // As a special case, consider this non-mutating.
+    if (ctx->rejectMutating)
+        return FALSE;
+
     // Release follower from movement iff it exists and is in the shadowing state
+    followerObject = GetFollowerObject();
     if (followerObject && gSprites[followerObject->spriteId].data[1] == 0)
         ClearObjectEventMovement(followerObject, &gSprites[followerObject->spriteId]);
 
@@ -1332,8 +1342,14 @@ bool8 ScrCmd_releaseall(struct ScriptContext *ctx)
 bool8 ScrCmd_release(struct ScriptContext *ctx)
 {
     u8 playerObjectId;
-    struct ObjectEvent *followerObject = GetFollowerObject();
+    struct ObjectEvent *followerObject;
+
+    // As a special case, consider this non-mutating.
+    if (ctx->rejectMutating)
+        return FALSE;
+
     // Release follower from movement iff it exists and is in the shadowing state
+    followerObject = GetFollowerObject();
     if (followerObject && gSprites[followerObject->spriteId].data[1] == 0)
         ClearObjectEventMovement(followerObject, &gSprites[followerObject->spriteId]);
 

@@ -287,7 +287,7 @@ void RunScriptImmediately(const u8 *ptr)
     while (RunScriptCommand(&sImmediateScriptContext) == TRUE);
 }
 
-u8 *MapHeaderGetScriptTable(u8 tag)
+const u8 *MapHeaderGetScriptTable(u8 tag)
 {
     const u8 *mapScripts = gMapHeader.mapScripts;
 
@@ -300,11 +300,8 @@ u8 *MapHeaderGetScriptTable(u8 tag)
             return NULL;
         if (*mapScripts == tag)
         {
-            u8 *mapScript;
             mapScripts++;
-            mapScript = T2_READ_PTR(mapScripts);
-            if (!Script_HasNoEffect(mapScript, 0))
-                return mapScript;
+            return T2_READ_PTR(mapScripts);
         }
         mapScripts += 5;
     }
@@ -312,14 +309,14 @@ u8 *MapHeaderGetScriptTable(u8 tag)
 
 void MapHeaderRunScriptType(u8 tag)
 {
-    u8 *ptr = MapHeaderGetScriptTable(tag);
+    const u8 *ptr = MapHeaderGetScriptTable(tag);
     if (ptr)
         RunScriptImmediately(ptr);
 }
 
-u8 *MapHeaderCheckScriptTable(u8 tag)
+const u8 *MapHeaderCheckScriptTable(u8 tag)
 {
-    u8 *ptr = MapHeaderGetScriptTable(tag);
+    const u8 *ptr = MapHeaderGetScriptTable(tag);
 
     if (!ptr)
         return NULL;
@@ -342,7 +339,7 @@ u8 *MapHeaderCheckScriptTable(u8 tag)
         // Run map script if vars are equal
         if (VarGet(varIndex1) == VarGet(varIndex2))
         {
-            u8 *mapScript = T2_READ_PTR(ptr);
+            const u8 *mapScript = T2_READ_PTR(ptr);
             if (!Script_HasNoEffect(mapScript, 0))
                 return mapScript;
         }
@@ -377,7 +374,7 @@ void RunOnDiveWarpMapScript(void)
 
 bool8 TryRunOnFrameMapScript(void)
 {
-    u8 *ptr = MapHeaderCheckScriptTable(MAP_SCRIPT_ON_FRAME_TABLE);
+    const u8 *ptr = MapHeaderCheckScriptTable(MAP_SCRIPT_ON_FRAME_TABLE);
 
     if (!ptr)
         return FALSE;
@@ -388,7 +385,7 @@ bool8 TryRunOnFrameMapScript(void)
 
 void TryRunOnWarpIntoMapScript(void)
 {
-    u8 *ptr = MapHeaderCheckScriptTable(MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE);
+    const u8 *ptr = MapHeaderCheckScriptTable(MAP_SCRIPT_ON_WARP_INTO_MAP_TABLE);
     if (ptr)
         RunScriptImmediately(ptr);
 }
@@ -524,10 +521,10 @@ bool8 LoadTrainerObjectScript(void)
     return TRUE;
 }
 
-static inline bool32 Script_MutatingInstrumented(ScrCmdFunc func)
+static inline bool32 Script_IsMutatingCommand(ScrCmdFunc func)
 {
     // In the first ROM mirror.
-    return (((uintptr_t)func) & 0x0E000000) == 0x0A000000;
+    return (((uintptr_t)func) & 0x0E000000) == 0x08000000;
 }
 
 bool32 Script_IsMutatingFlag(u32 flagId)
@@ -557,8 +554,7 @@ bool32 Script_IsMutatingNative(void (*func)(struct ScriptContext *))
 // execute are those affecting:
 // 1. The script context (e.g. goto, call, compare, loadword).
 // 2. The special vars (e.g. setvar, getpartysize, checkitem).
-// 3. The special flags (e.g. setflag, clearflag).
-// 4. The string vars (e.g. bufferspeciesname).
+// 3. The string vars (e.g. bufferspeciesname).
 //
 // Any other mutations, including ones that have an output the player
 // can see or hear cause Script_HasNoEffect to return FALSE.
@@ -609,8 +605,7 @@ bool32 Script_HasNoEffect(const u8 *script, u32 flags)
         if (func >= ctx.cmdTableEnd)
             break;
 
-        // User has changed this script command.
-        if (!Script_MutatingInstrumented(*func))
+        if (Script_IsMutatingCommand(*func))
             break;
 
         // Possibly-not-mutating ScrCmd returning TRUE is overloaded to
@@ -660,8 +655,7 @@ const u8 *Script_FindTrainerBattleCommand(const u8 *script)
         if (func >= ctx.cmdTableEnd)
             break;
 
-        // User has changed this script command.
-        if (!Script_MutatingInstrumented(*func))
+        if (Script_IsMutatingCommand(*func))
             break;
 
         // Possibly-not-mutating ScrCmd returning TRUE is overloaded to
