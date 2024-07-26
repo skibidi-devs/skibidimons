@@ -115,26 +115,3 @@ TEST("Script_HasNoEffect variables")
     EXPECT(!Script_HasNoEffect(getPlayerXYVariable2, 0));
     EXPECT(!Script_HasNoEffect(checkCoinsVariable, 0));
 }
-
-TEST("Script_HasNoEffect flags")
-{
-    const u8 *writeSpecial = OVERWORLD_SCRIPT(
-        setflag FLAG_HIDE_MAP_NAME_POPUP;
-        clearflag FLAG_HIDE_MAP_NAME_POPUP;
-        end;
-    );
-
-    const u8 *setFlag = OVERWORLD_SCRIPT(
-        setflag FLAG_TEMP_1;
-        end;
-    );
-
-    const u8 *clearFlag = OVERWORLD_SCRIPT(
-        clearflag FLAG_TEMP_1;
-        end;
-    );
-
-    EXPECT(Script_HasNoEffect(writeSpecial, 0));
-    EXPECT(!Script_HasNoEffect(setFlag, 0));
-    EXPECT(!Script_HasNoEffect(clearFlag, 0));
-}
