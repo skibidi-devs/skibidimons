@@ -251,15 +251,14 @@
 	.endm
 
 	@ Calls the native C function stored at func.
-	@ player_visible should be set to FALSE if the native cannot
-	@ have a "player-visible" effect in the sense documented in
-	@ Script_HasNoEffect. If the native sometimes has a player-
-	@ visible effect when called with its arguments, it must be
-	@ treated as always having a player-visible effect and set to
-	@ TRUE.
-	.macro callnative func:req, player_visible=TRUE
+	@ mutating should be set to FALSE if the native cannot have a
+	@ mutating effect in the sense documented in Script_HasNoEffect.
+	@ If the native sometimes has a mutating effect when called with
+	@ its arguments, it must be treated as always having a mutating
+	@ effect and set to TRUE.
+	.macro callnative func:req, mutating=TRUE
 	.byte 0x23
-	.if \player_visible
+	.if \mutating
 	.4byte \func
 	.else
 	.4byte \func + ROM_SIZE
@@ -2193,7 +2192,7 @@
 	@ Sets VAR_RESULT to TRUE if stat can be hyper trained, or to
 	@ FALSE otherwise.
 	.macro canhypertrain stat:req, slot:req
-	callnative CanHyperTrain, player_visible=FALSE
+	callnative CanHyperTrain, mutating=FALSE
 	.byte \stat
 	.2byte \slot
 	.endm
@@ -2208,7 +2207,7 @@
 	@ Sets VAR_RESULT to TRUE if the Pokemon has the Gigantamax Factor,
 	@ or to FALSE otherwise.
 	.macro hasgigantamaxfactor slot:req
-	callnative HasGigantamaxFactor, player_visible=FALSE
+	callnative HasGigantamaxFactor, mutating=FALSE
 	.2byte \slot
 	.endm
 
@@ -2261,7 +2260,7 @@
 
 	@ Sets VAR_RESULT to the Pokémon in \slot's Tera Type
 	.macro checkteratype slot:req
-	callnative CheckTeraType, player_visible=FALSE
+	callnative CheckTeraType, mutating=FALSE
 	.2byte \slot
 	.endm
 
@@ -2288,7 +2287,7 @@
 
 	@ Buffers the nickname of the first alive party member.
 	.macro bufferlivemonnickname out:req
-	callnative BufferFirstLiveMonNickname, player_visible=FALSE
+	callnative BufferFirstLiveMonNickname, mutating=FALSE
 	.byte \out
 	.endm
 
@@ -2300,9 +2299,9 @@
 	@ Checks if Field move is being used by the current follower.
 	.macro isfollowerfieldmoveuser var:req
 	.if (\var >= SPECIAL_VARS_START && \var <= SPECIAL_VARS_END)
-	callnative IsFollowerFieldMoveUser, player_visible=FALSE
+	callnative IsFollowerFieldMoveUser, mutating=FALSE
 	.else
-	callnative IsFollowerFieldMoveUser, player_visible=TRUE
+	callnative IsFollowerFieldMoveUser, mutating=TRUE
 	.endif
 	.2byte \var
 	.endm
@@ -2310,9 +2309,9 @@
 	@ Saves the direction from where source object event would need to turn to to face the target into the specified var.
 	.macro getdirectiontoface var:req, sourceId:req, targetId:req
 	.if (\var >= SPECIAL_VARS_START && \var <= SPECIAL_VARS_END)
-	callnative GetDirectionToFaceScript, player_visible=FALSE
+	callnative GetDirectionToFaceScript, mutating=FALSE
 	.else
-	callnative GetDirectionToFaceScript, player_visible=TRUE
+	callnative GetDirectionToFaceScript, mutating=TRUE
 	.endif
 	.2byte \var
 	.byte \sourceId
@@ -2343,7 +2342,7 @@
 	@ Makes the trainer unable to see the player if executed.
 	@ This is a no-op if the player interacts with the trainer.
 	.macro cant_see_if, condition:req
-	callnative Script_EndTrainerCanSeeIf, player_visible=FALSE
+	callnative Script_EndTrainerCanSeeIf, mutating=FALSE
 	.byte \condition
 	.endm
 

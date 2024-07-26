@@ -553,13 +553,15 @@ bool32 Script_IsMutatingNative(void (*func)(struct ScriptContext *))
     return (((uintptr_t)func) & 0x0E000000) == 0x08000000;
 }
 
-// Analyzes the script and returns TRUE if it definitely has no player-
-// visible effects when executed immediately. Player-visible effects are
-// any mutations other than those affecting:
-// 1. The script context (e.g. goto, call, compare).
+// Analyzes the script and returns TRUE if the only mutations it will
+// execute are those affecting:
+// 1. The script context (e.g. goto, call, compare, loadword).
 // 2. The special vars (e.g. setvar, getpartysize, checkitem).
 // 3. The special flags (e.g. setflag, clearflag).
 // 4. The string vars (e.g. bufferspeciesname).
+//
+// Any other mutations, including ones that have an output the player
+// can see or hear cause Script_HasNoEffect to return FALSE.
 //
 // For example, given the following script:
 //
@@ -574,9 +576,10 @@ bool32 Script_IsMutatingNative(void (*func)(struct ScriptContext *))
 // FLAG_TEMP_1 is set, and returns FALSE if FLAG_TEMP_1 is clear.
 //
 // It is important that any unknown opcodes are treated as having
-// player-visible effects. To achieve this, we have instrumented any
-// ScrCmd_* functions which could potentially be non-mutating, and
-// explicitly marked them in gScriptCmdTable.
+// mutations. To achieve this, we have instrumented any ScrCmd_*
+// functions which could potentially be non-mutating, and explicitly
+// marked them in gScriptCmdTable; additionally, we have manually marked
+// all the natives and specials which are definitely non-mutating.
 bool32 Script_HasNoEffect(const u8 *script, u32 flags)
 {
     struct ScriptContext ctx;
