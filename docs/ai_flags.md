@@ -11,18 +11,13 @@ Other flags should be used with consideration to the circumstances.
 # How do you use them?
 Adding an AI flag to a trainer is straightforward, but the process is different depending on how trainers are being defined.
 
-## `COMPETITIVE_PARTY_SYNTAX == TRUE`
-If you are using competitive syntax parties, navigate to the trainer data in [`src/data/trainers.party`](https://github.com/rh-hideout/pokeemerald-expansion/blob/upcoming/src/data/trainers.party), find the trainer you’d like to change, and add flags like so:
+Navigate to the trainer data in [`src/data/trainers.party`](https://github.com/rh-hideout/pokeemerald-expansion/blob/upcoming/src/data/trainers.party), find the trainer you’d like to change, and add flags like so:
 AI: Check Bad Move / Try to Faint / Check Viability. The name of each flag is just the constant, but without AI_FLAG at the beginning. For example, to add `AI_FLAG_SEQUENCE_SWITCHING`, any of the following will work:
+* Sequence Switching
 * AI_FLAG_SEQUENCE_SWITCHING
 * SEQUENCE_SWITCHING
 * SEQUENCE SWITCHING
 * Sequence_Switching
-* Sequence Switching
-
-## `COMPETITIVE_PARTY_SYNTAX != TRUE` / Not Found
-If you are not using competitive syntax parties, instead access the trainer data directly in [`src/data/trainers.h`](https://github.com/rh-hideout/pokeemerald-expansion/blob/master/src/data/trainers.h), and add flags like so, typed exactly the same as the flag names themselves: 
-`.aiFlags = AI_FLAG_CHECK_BAD_MOVE | AI_FLAG_TRY_TO_FAINT | AI_FLAG_CHECK_VIABILITY`
 
 # What AI Flags does pokeemerald-expansion have?
 This section lists all of expansion’s AI Flags and briefly describes the effect they have on the AI’s behaviour. In all cases, please check the corresponding function or surrounding code around their implementation for more details. Some of these functions are vanilla, some share a name with vanilla but have been modified to varying degrees, and some are completely new.

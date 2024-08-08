@@ -40,3 +40,8 @@ prefabs.json
 *.js
 src/data/map_group_count.h
 tools/trainerproc/trainerproc
+src/data/trainers.h
+src/data/trainer_parties.h
+src/data/battle_partners.h
+src/data/partner_parties.h
+test/battle/trainer_control.h

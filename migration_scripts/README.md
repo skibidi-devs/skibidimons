@@ -99,7 +99,7 @@ Moves all information from `gItemIconTable` to `gItemsInfo`.
 * Filepaths [`migration_scripts/1.9/convert_trainer_parties.py`](1.9/convert_trainer_parties.py) and [`migration_scripts/1.9/convert_partner_parties.py`](1.9/convert_trainer_parties.py)
 * Introduced in [Competitive-formatted parties #3545](https://github.com/rh-hideout/pokeemerald-expansion/pull/3545) and [Make trainerproc compatible with partners #4421](https://github.com/rh-hideout/pokeemerald-expansion/pull/4421)
 
-Converts trainer data (for `convert_trainer_parties.py`) and partner data (for `convert_partner_data.py`) to the new `.party` format. Not necessary if `COMPETITIVE_PARTY_SYNTAX` is turned off.
+Converts trainer data (for `convert_trainer_parties.py`) and partner data (for `convert_partner_data.py`) to the new `.party` format.
 
 #### [src/data/trainer_parties.h](..src/data/trainer_parties.h)
 ```diff
