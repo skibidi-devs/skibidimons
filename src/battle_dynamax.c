@@ -485,7 +485,7 @@ static u32 GetMaxMoveStatusEffect(u32 move)
         }
         case MAX_EFFECT_EFFECT_SPORE_FOES:
         {
-            static const u8 sBefuddleEffects[] = {STATUS1_PARALYSIS, STATUS1_POISON, STATUS1_SLEEP};
+            static const u16 sBefuddleEffects[] = {STATUS1_PARALYSIS, STATUS1_POISON, (B_USE_DROWSY == TRUE ? STATUS1_DROWSY : STATUS1_SLEEP)};
             return RandomElement(RNG_G_MAX_BEFUDDLE, sBefuddleEffects);
         }
         // Status 2
@@ -759,7 +759,7 @@ void BS_SetMaxMoveEffect(void)
         {
             static const u8 sSnoozeEffects[] = {TRUE, FALSE};
             if (!(gStatuses3[gBattlerTarget] & STATUS3_YAWN)
-                && CanBeSlept(gBattlerTarget, GetBattlerAbility(gBattlerTarget), TRUE)
+                && CanBeSleptOrDrowsy(gBattlerTarget, GetBattlerAbility(gBattlerTarget), TRUE)
                 && RandomElement(RNG_G_MAX_SNOOZE, sSnoozeEffects)) // 50% chance of success
             {
                 gStatuses3[gBattlerTarget] |= STATUS3_YAWN_TURN(2);
@@ -880,8 +880,17 @@ void BS_TrySetStatus1(void)
                 effect++;
             }
             break;
+        case STATUS1_DROWSY:
+            if (CanBeSleptOrDrowsy(gBattlerTarget, GetBattlerAbility(gBattlerTarget), TRUE))
+            {
+                gBattleMons[gBattlerTarget].status1 |= STATUS1_DROWSY;
+                TryActivateSleepClause(gBattlerTarget, gBattlerPartyIndexes[gBattlerTarget]);    
+                gBattleCommunication[MULTISTRING_CHOOSER] = 6;
+                effect++;
+            }
+            break;
         case STATUS1_SLEEP:
-            if (CanBeSlept(gBattlerTarget, GetBattlerAbility(gBattlerTarget), TRUE))
+            if (CanBeSleptOrDrowsy(gBattlerTarget, GetBattlerAbility(gBattlerTarget), TRUE))
             {
                 if (B_SLEEP_TURNS >= GEN_5)
                     gBattleMons[gBattlerTarget].status1 |=  STATUS1_SLEEP_TURN((Random() % 3) + 2);

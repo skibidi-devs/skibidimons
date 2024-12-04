@@ -812,7 +812,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                     RETURN_SCORE_MINUS(10);
                 break;
             case ABILITY_SWEET_VEIL:
-                if (moveEffect == EFFECT_SLEEP || moveEffect == EFFECT_YAWN)
+                if (moveEffect == EFFECT_SLEEP || moveEffect == EFFECT_YAWN || moveEffect == EFFECT_DROWSY)
                     RETURN_SCORE_MINUS(10);
                 break;
             case ABILITY_FLOWER_VEIL:
@@ -893,7 +893,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                         RETURN_SCORE_MINUS(20);
                     break;
                 case ABILITY_SWEET_VEIL:
-                    if (moveEffect == EFFECT_SLEEP || moveEffect == EFFECT_YAWN)
+                    if (moveEffect == EFFECT_SLEEP || moveEffect == EFFECT_YAWN || moveEffect == EFFECT_DROWSY)
                         RETURN_SCORE_MINUS(20);
                     break;
                 case ABILITY_FLOWER_VEIL:
@@ -917,7 +917,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
         // terrain & effect checks
         if (IsBattlerTerrainAffected(battlerDef, STATUS_FIELD_ELECTRIC_TERRAIN))
         {
-            if (moveEffect == EFFECT_SLEEP || moveEffect == EFFECT_YAWN)
+            if (moveEffect == EFFECT_SLEEP || moveEffect == EFFECT_YAWN || moveEffect == EFFECT_DROWSY)
                 RETURN_SCORE_MINUS(20);
         }
 
@@ -984,6 +984,10 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                 ADJUST_SCORE(-10);
             if (PartnerMoveActivatesSleepClause(aiData->partnerMove))
                 ADJUST_SCORE(-20);
+            break;
+        case EFFECT_DROWSY:
+            if (!AI_CanGiveDrowsy(battlerAtk, battlerDef, aiData->abilities[battlerDef], move, aiData->partnerMove))
+                ADJUST_SCORE(-10);
             break;
         case EFFECT_EXPLOSION:
             if (!(AI_THINKING_STRUCT->aiFlags[battlerAtk] & AI_FLAG_WILL_SUICIDE))
@@ -1723,7 +1727,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                 ADJUST_SCORE(-10);
             break;
         case EFFECT_REFRESH:
-            if (!(gBattleMons[battlerDef].status1 & (STATUS1_PSN_ANY | STATUS1_BURN | STATUS1_PARALYSIS | STATUS1_FROSTBITE)))
+            if (!(gBattleMons[battlerDef].status1 & (STATUS1_PSN_ANY | STATUS1_BURN | STATUS1_PARALYSIS | STATUS1_FROSTBITE | STATUS1_DROWSY)))
                 ADJUST_SCORE(-10);
             break;
         case EFFECT_PSYCHO_SHIFT:
@@ -1736,6 +1740,8 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
               aiData->abilities[battlerDef], BATTLE_PARTNER(battlerAtk), move, aiData->partnerMove))
                 ADJUST_SCORE(-10);
             else if (gBattleMons[battlerAtk].status1 & STATUS1_PARALYSIS && !AI_CanParalyze(battlerAtk, battlerDef, aiData->abilities[battlerDef], move, aiData->partnerMove))
+                ADJUST_SCORE(-10);
+            else if (gBattleMons[battlerAtk].status1 & STATUS1_DROWSY && !AI_CanGiveDrowsy(battlerAtk, battlerDef, aiData->abilities[battlerDef], move, aiData->partnerMove))
                 ADJUST_SCORE(-10);
             else if (gBattleMons[battlerAtk].status1 & STATUS1_SLEEP && !AI_CanPutToSleep(battlerAtk, battlerDef, aiData->abilities[battlerDef], move, aiData->partnerMove))
                 ADJUST_SCORE(-10);
@@ -1796,7 +1802,7 @@ static s32 AI_CheckBadMove(u32 battlerAtk, u32 battlerDef, u32 move, s32 score)
                 ADJUST_SCORE(-10);
             break;
         case EFFECT_REST:
-            if (!CanBeSlept(battlerAtk, aiData->abilities[battlerAtk], FALSE))
+            if (!CanBeSleptOrDrowsy(battlerAtk, aiData->abilities[battlerAtk], FALSE))
                 ADJUST_SCORE(-10);
             //fallthrough
         case EFFECT_RESTORE_HP:
@@ -3218,6 +3224,8 @@ static u32 AI_CalcMoveEffectScore(u32 battlerAtk, u32 battlerDef, u32 move)
     case EFFECT_YAWN:
         IncreaseSleepScore(battlerAtk, battlerDef, move, &score);
         break;
+    case EFFECT_DROWSY:
+        IncreaseDrowsyScore(battlerAtk, battlerDef, move, &score);
     case EFFECT_ABSORB:
         if (aiData->holdEffects[battlerAtk] == HOLD_EFFECT_BIG_ROOT && effectiveness >= AI_EFFECTIVENESS_x1)
             ADJUST_SCORE(DECENT_EFFECT);
@@ -3461,7 +3469,7 @@ static u32 AI_CalcMoveEffectScore(u32 battlerAtk, u32 battlerDef, u32 move)
         }
         break;
     case EFFECT_REST:
-        if (!(CanBeSlept(battlerAtk, aiData->abilities[battlerAtk], FALSE)))
+        if (!CanBeSleptOrDrowsy(battlerAtk, aiData->abilities[battlerAtk], FALSE))
         {
             break;
         }
@@ -4103,6 +4111,8 @@ static u32 AI_CalcMoveEffectScore(u32 battlerAtk, u32 battlerDef, u32 move)
             IncreaseBurnScore(battlerAtk, battlerDef, move, &score);
         else if (gBattleMons[battlerAtk].status1 & STATUS1_PARALYSIS)
             IncreaseParalyzeScore(battlerAtk, battlerDef, move, &score);
+        else if (gBattleMons[battlerAtk].status1 & STATUS1_DROWSY)
+            IncreaseDrowsyScore(battlerAtk, battlerDef, move, &score);
         else if (gBattleMons[battlerAtk].status1 & STATUS1_SLEEP)
             IncreaseSleepScore(battlerAtk, battlerDef, move, &score);
         else if (gBattleMons[battlerAtk].status1 & STATUS1_FROSTBITE)
