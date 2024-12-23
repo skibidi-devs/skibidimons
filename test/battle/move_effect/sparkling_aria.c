@@ -5,7 +5,7 @@ ASSUMPTIONS
 {
     ASSUME(MoveHasAdditionalEffect(MOVE_SPARKLING_ARIA, MOVE_EFFECT_REMOVE_STATUS) == TRUE);
     ASSUME(gMovesInfo[MOVE_SPARKLING_ARIA].argument.status == STATUS1_BURN);
-    ASSUME(gMovesInfo[MOVE_SPARKLING_ARIA].soundMove == TRUE);
+    ASSUME(IsSoundMove(MOVE_SPARKLING_ARIA));
 }
 
 DOUBLE_BATTLE_TEST("Sparkling Aria cures burns from all Pokemon on the field and behind substitutes")

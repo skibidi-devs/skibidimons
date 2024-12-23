@@ -240,7 +240,7 @@ bool32 IsMoveBlockedByMaxGuard(u32 move)
 bool32 IsMoveBlockedByDynamax(u32 move)
 {
     // TODO: Certain moves are banned in raids.
-    switch (gMovesInfo[move].effect)
+    switch (GetMoveEffect(move))
     {
         case EFFECT_HEAT_CRASH:
         case EFFECT_LOW_KICK:
@@ -282,7 +282,7 @@ u16 GetMaxMove(u32 battler, u32 baseMove)
 {
     u32 moveType;
     SetTypeBeforeUsingMove(baseMove, battler);
-    moveType = GetMoveType(baseMove);
+    moveType = GetBattleMoveType(baseMove);
 
     if (baseMove == MOVE_NONE) // for move display
     {
@@ -292,7 +292,7 @@ u16 GetMaxMove(u32 battler, u32 baseMove)
     {
         return MOVE_STRUGGLE;
     }
-    else if (gMovesInfo[baseMove].category == DAMAGE_CATEGORY_STATUS)
+    else if (GetMoveCategory(baseMove) == DAMAGE_CATEGORY_STATUS)
     {
         return MOVE_MAX_GUARD;
     }
@@ -333,8 +333,9 @@ u8 GetMaxMovePower(u32 move)
     }
 
     tier = GetMaxPowerTier(move);
-    if (gMovesInfo[move].type == TYPE_FIGHTING
-     || gMovesInfo[move].type == TYPE_POISON
+    u32 moveType = GetMoveType(move);
+    if (moveType == TYPE_FIGHTING
+     || moveType == TYPE_POISON
      || move == MOVE_MULTI_ATTACK)
     {
         switch (tier)
@@ -369,9 +370,10 @@ u8 GetMaxMovePower(u32 move)
 
 static u8 GetMaxPowerTier(u32 move)
 {
-    if (gMovesInfo[move].strikeCount >= 2 && gMovesInfo[move].strikeCount <= 5)
+    u32 strikeCount = GetMoveStrikeCount(move);
+    if (strikeCount >= 2 && strikeCount <= 5)
     {
-        switch(gMovesInfo[move].power)
+        switch(GetMovePower(move))
         {
             case 0 ... 25:  return MAX_POWER_TIER_2;
             case 26 ... 30: return MAX_POWER_TIER_3;
@@ -382,7 +384,7 @@ static u8 GetMaxPowerTier(u32 move)
         }
     }
 
-    switch (gMovesInfo[move].effect)
+    switch (GetMoveEffect(move))
     {
         case EFFECT_BIDE:
         case EFFECT_SUPER_FANG:
@@ -418,7 +420,7 @@ static u8 GetMaxPowerTier(u32 move)
         case EFFECT_LOW_KICK:
             return MAX_POWER_TIER_7;
         case EFFECT_MULTI_HIT:
-            switch(gMovesInfo[move].power)
+            switch(GetMovePower(move))
             {
                 case 0 ... 15:    return MAX_POWER_TIER_1;
                 case 16 ... 18:   return MAX_POWER_TIER_2;
@@ -428,7 +430,7 @@ static u8 GetMaxPowerTier(u32 move)
             }
     }
 
-    switch (gMovesInfo[move].power)
+    switch (GetMovePower(move))
     {
         case 0 ... 40:    return MAX_POWER_TIER_1;
         case 45 ... 50:   return MAX_POWER_TIER_2;
@@ -659,11 +661,12 @@ void BS_SetMaxMoveEffect(void)
             u8 side = GetBattlerSide(gBattlerTarget);
             if (!(gSideStatuses[side] & SIDE_STATUS_DAMAGE_NON_TYPES))
             {
+                u32 moveType = GetMoveType(gCurrentMove);
                 gSideStatuses[side] |= SIDE_STATUS_DAMAGE_NON_TYPES;
                 gSideTimers[side].damageNonTypesTimer = 5; // damage is dealt for 4 turns, ends on 5th
-                gSideTimers[side].damageNonTypesType = gMovesInfo[gCurrentMove].type;
+                gSideTimers[side].damageNonTypesType = moveType;
                 BattleScriptPush(gBattlescriptCurrInstr + 1);
-                ChooseDamageNonTypesString(gMovesInfo[gCurrentMove].type);
+                ChooseDamageNonTypesString(moveType);
                 gBattlescriptCurrInstr = BattleScript_DamageNonTypesStarts;
                 effect++;
             }

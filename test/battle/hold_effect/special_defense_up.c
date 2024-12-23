@@ -4,7 +4,7 @@
 ASSUMPTIONS
 {
     ASSUME(gItemsInfo[ITEM_APICOT_BERRY].holdEffect == HOLD_EFFECT_SP_DEFENSE_UP);
-    ASSUME(gMovesInfo[MOVE_DRAGON_RAGE].effect == EFFECT_FIXED_DAMAGE_ARG);
+    ASSUME(GetMoveEffect(MOVE_DRAGON_RAGE) == EFFECT_FIXED_DAMAGE_ARG);
     ASSUME(gMovesInfo[MOVE_DRAGON_RAGE].argument.fixedDamage == 40);
 }
 

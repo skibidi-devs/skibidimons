@@ -3,7 +3,7 @@
 
 ASSUMPTIONS
 {
-    ASSUME(gMovesInfo[MOVE_HEAL_PULSE].effect == EFFECT_HEAL_PULSE);
+    ASSUME(GetMoveEffect(MOVE_HEAL_PULSE) == EFFECT_HEAL_PULSE);
 }
 
 SINGLE_BATTLE_TEST("Heal Pulse heals the target by 1/2 of it's maxHP")
@@ -68,7 +68,7 @@ SINGLE_BATTLE_TEST("Heal Pulse ignores accurace checks")
 SINGLE_BATTLE_TEST("Heal Pulse is blocked by Substitute")
 {
     GIVEN {
-        ASSUME(gMovesInfo[MOVE_SUBSTITUTE].effect == EFFECT_SUBSTITUTE);
+        ASSUME(GetMoveEffect(MOVE_SUBSTITUTE) == EFFECT_SUBSTITUTE);
         PLAYER(SPECIES_WOBBUFFET) { MaxHP(100); HP(50); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
@@ -87,7 +87,7 @@ SINGLE_BATTLE_TEST("Floral Healing heals the target by 2/3rd of it's maxHP if Gr
 {
     GIVEN {
         ASSUME(gMovesInfo[MOVE_FLORAL_HEALING].argument.moveProperty == MOVE_EFFECT_FLORAL_HEALING);
-        ASSUME(gMovesInfo[MOVE_GRASSY_TERRAIN].effect == EFFECT_GRASSY_TERRAIN);
+        ASSUME(GetMoveEffect(MOVE_GRASSY_TERRAIN) == EFFECT_GRASSY_TERRAIN);
         PLAYER(SPECIES_WOBBUFFET) { MaxHP(100); HP(1); }
         OPPONENT(SPECIES_WOBBUFFET);
     } WHEN {
