@@ -23,12 +23,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Checkout agbcc
-        uses: actions/checkout@v4
-        with:
-          path: agbcc
-          repository: pret/agbcc
-
       - name: Install dependencies
         run: |
           sudo apt update
@@ -39,12 +33,6 @@ jobs:
           echo "deb [signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
           sudo apt-get update
           sudo apt-get install -y gh
-
-      - name: Install agbcc
-        run: |
-          ./build.sh
-          ./install.sh ../
-        working-directory: agbcc
 
       - name: ROM
         env:
@@ -84,28 +72,11 @@ jobs:
                }" \
                ${{ secrets.DISCORD_BUILD_SECRET }}
 
-      # Creating a patch file online
-      - name: Download pokeemerald
-        run: pwd && cd tools && git clone https://github.com/pret/pokeemerald
-  
-      - name: Install agbcc to pokeemerald
-        run: pwd && cd tools && ls && cp -r agbcc pokeemerald/tools/ && cd pokeemerald && pwd
-  
-      - name: Build pokeemerald
-        run: |
-          cd tools/pokeemerald
-          make -j8
-
-      - name: Build pokeemerald.bps
-        run: |
-          chmod -R 755 ./tools/flips-linux
-          ./tools/flips-linux --create tools/pokeemerald/pokeemerald.gba pokeemerald.gba pokeemerald.bps
-
-      - name: Upload patch
+      - name: Upload ROM
         uses: actions/upload-artifact@v4
         with:
-          name: pokeemerald
-          path: pokeemerald.bps
+          name: pokeskibidimons
+          path: pokeskibidimons.gba
 
       - name: Get Artifact ID
         id: artifact
