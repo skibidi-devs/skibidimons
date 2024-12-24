@@ -3,9 +3,10 @@ name: CI
 on:
   push:
     branches:
-      - master
       - upcoming
-  pull_request:
+
+permissions:
+  contents: read
 
 jobs:
   build:
@@ -15,23 +16,31 @@ jobs:
       GAME_VERSION: EMERALD
       GAME_REVISION: 0
       GAME_LANGUAGE: ENGLISH
+      MODERN: 0
       COMPARE: 0
       UNUSED_ERROR: 1
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Install binutils
+      - name: Checkout agbcc
+        uses: actions/checkout@v4
+        with:
+          path: agbcc
+          repository: pret/agbcc
+
+      - name: Install dependencies
         run: |
           sudo apt update
-          sudo apt install -y build-essential libpng-dev libelf-dev
-        # build-essential and git are already installed
-        # gcc-arm-none-eabi is only needed for the modern build
-        # as an alternative to dkP
+          sudo apt-get update
+          sudo apt install -y build-essential libpng-dev libelf-dev libgtk-3-dev jq curl
+          # Install GitHub CLI
+          curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /usr/share/keyrings/githubcli-archive-keyring.gpg >/dev/null
+          echo "deb [signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list >/dev/null
+          sudo apt-get update
+          sudo apt-get install -y gh
 
       - name: ROM
-        env:
-          COMPARE: 0
         run: make -j${nproc} -O all
 
       - name: Test
@@ -39,3 +48,94 @@ jobs:
           TEST: 1
         run: |
           make -j${nproc} check
+
+      - name: Send failure notification to Discord
+        if: failure()
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d "{
+                 \"embeds\": [
+                   {
+                     \"title\": \"CI Job Failed\",
+                     \"description\": \"A CI job has failed.\",
+                     \"color\": 16711680,
+                     \"fields\": [
+                       {
+                         \"name\": \"Commit hash:\",
+                         \"value\": \"${{ github.event.head_commit.id }}\",
+                         \"inline\": false
+                       },
+                       {
+                         \"name\": \"Committed by:\",
+                         \"value\": \"[${{ github.actor }}](https://github.com/${{ github.actor }})\",
+                         \"inline\": false
+                       },
+                       {
+                         \"name\": \"Workflow run:\",
+                         \"value\": \"[View workflow](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\",
+                         \"inline\": false
+                       }
+                     ]
+                   }
+                 ]
+               }" \
+               ${{ secrets.DISCORD_BUILD_SECRET }}
+
+      # Creating a patch file online
+      - name: Download pokeemerald
+        run: pwd && cd tools && git clone https://github.com/pret/pokeemerald
+  
+      - name: Install agbcc to pokeemerald
+        run: pwd && cd tools && ls && cp -r agbcc pokeemerald/tools/ && cd pokeemerald && pwd
+  
+      - name: Build pokeemerald
+        run: |
+          cd tools/pokeemerald
+          make -j8
+
+      - name: Build pokeemerald.bps
+        run: |
+          chmod -R 755 ./tools/flips-linux
+          ./tools/flips-linux --create tools/pokeemerald/pokeemerald.gba pokeyaeeh.gba Pokemon_YAEEH.bps
+
+      - name: Upload patch
+        uses: actions/upload-artifact@v4
+        with:
+          name: Pokemon_YAEEH
+          path: Pokemon_YAEEH.bps
+
+      - name: Get artifact ID
+        id: artifact
+        run: |
+          artifact_id=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts | jq -r '.artifacts[0].id')
+          echo "artifact_id=$artifact_id" >> $GITHUB_ENV
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Send patch creation notification to Discord
+        if: success()
+        run: |
+          curl -H "Content-Type: application/json" \
+               -X POST \
+               -d "$(jq -n '{
+                  embeds: [
+                    {
+                      title: "Patch created!",
+                      color: 65280,
+                      fields: [
+                        {
+                          name: "Download:",
+                          value: "[__**Click here**__](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ env.artifact_id }})",
+                          inline: false
+                        },
+                        {
+                          name: "Commit hash:",
+                          value: "[${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})",
+                          inline: false
+                        }
+                      ]
+                    }
+                  ]
+                }')" \
+               ${{ secrets.DISCORD_PATCH_SECRET }}
