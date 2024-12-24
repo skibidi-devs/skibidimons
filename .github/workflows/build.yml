@@ -66,7 +66,7 @@ jobs:
                    \"fields\": [
                      {
                        \"name\": \"Commit hash:\",
-                       \"value\": \"${{ github.event.head_commit.id }}\",
+                       \"value\": \"[${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\",
                        \"inline\": false
                      },
                      {
