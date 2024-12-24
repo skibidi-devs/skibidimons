@@ -40,39 +40,47 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y gh
 
-      - name: ROM
-        run: make -j${nproc} -O all
+      - name: Install agbcc
+        run: |
+          ./build.sh
+          ./install.sh ../
+        working-directory: agbcc
 
+      - name: ROM
+        env:
+          MODERN: 1
+          COMPARE: 0
+        run: make -j8 -O all
+
+      # Executes only if previous steps fail
       - name: Send failure notification to Discord
         if: failure()
         run: |
           curl -H "Content-Type: application/json" \
                -X POST \
                -d "{
-                 \"embeds\": [
-                   {
-                     \"title\": \"CI Job Failed\",
-                     \"description\": \"A CI job has failed.\",
-                     \"color\": 16711680,
-                     \"fields\": [
-                       {
-                         \"name\": \"Commit hash:\",
-                         \"value\": \"${{ github.event.head_commit.id }}\",
-                         \"inline\": false
-                       },
-                       {
-                         \"name\": \"Committed by:\",
-                         \"value\": \"[${{ github.actor }}](https://github.com/${{ github.actor }})\",
-                         \"inline\": false
-                       },
-                       {
-                         \"name\": \"Workflow run:\",
-                         \"value\": \"[View workflow](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\",
-                         \"inline\": false
-                       }
-                     ]
-                   }
-                 ]
+                 \"embeds\": [{
+                   \"title\": \"CI Job Failed\",
+                   \"description\": \"A CI job has failed.\",
+                   \"color\": 16711680,
+                   \"fields\": [
+                     {
+                       \"name\": \"Commit hash:\",
+                       \"value\": \"${{ github.event.head_commit.id }}\",
+                       \"inline\": false
+                     },
+                     {
+                       \"name\": \"Committed by:\",
+                       \"value\": \"[${{ github.actor }}](https://github.com/${{ github.actor }})\",
+                       \"inline\": false
+                     },
+                     {
+                       \"name\": \"Workflow run:\",
+                       \"value\": \"[View workflow](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})\",
+                       \"inline\": false
+                     }
+                   ]
+                 }]
                }" \
                ${{ secrets.DISCORD_BUILD_SECRET }}
 
@@ -91,45 +99,43 @@ jobs:
       - name: Build pokeemerald.bps
         run: |
           chmod -R 755 ./tools/flips-linux
-          ./tools/flips-linux --create tools/pokeemerald/pokeemerald.gba pokeyaeeh.gba Pokemon_YAEEH.bps
+          ./tools/flips-linux --create tools/pokeemerald/pokeemerald.gba pokeemerald.gba pokeemerald.bps
 
       - name: Upload patch
         uses: actions/upload-artifact@v4
         with:
-          name: Pokemon_YAEEH
-          path: Pokemon_YAEEH.bps
+          name: pokeemerald
+          path: pokeemerald.bps
 
-      - name: Get artifact ID
+      - name: Get Artifact ID
         id: artifact
         run: |
           artifact_id=$(gh api repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts | jq -r '.artifacts[0].id')
           echo "artifact_id=$artifact_id" >> $GITHUB_ENV
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  
       - name: Send patch creation notification to Discord
         if: success()
         run: |
           curl -H "Content-Type: application/json" \
                -X POST \
-               -d "$(jq -n '{
-                  embeds: [
-                    {
-                      title: "Patch created!",
-                      color: 65280,
-                      fields: [
-                        {
-                          name: "Download:",
-                          value: "[__**Click here**__](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ env.artifact_id }})",
-                          inline: false
-                        },
-                        {
-                          name: "Commit hash:",
-                          value: "[${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})",
-                          inline: false
-                        }
-                      ]
-                    }
-                  ]
-                }')" \
+               -d "{
+                 \"embeds\": [{
+                   \"title\": \"Patch created!\",
+                   \"color\": 65280,
+                   \"fields\": [
+                   {
+                     \"name\": \"Download:\",
+                     \"value\": \"[__**Click here**__](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${{ env.artifact_id }})\",
+                     \"inline\": false
+                   },
+                   {
+                     \"name\": \"Commit hash:\",
+                     \"value\": \"[${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\",
+                     \"inline\": false
+                   }
+                   ]
+                 }]
+               }" \
                ${{ secrets.DISCORD_PATCH_SECRET }}
