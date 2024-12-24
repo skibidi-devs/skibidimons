@@ -392,13 +392,6 @@
     },
     {
       "x": 26,
-      "y": 65,
-      "elevation": 0,
-      "dest_map": "MAP_BATTLE_FRONTIER_RECEPTION_GATE",
-      "dest_warp_id": "0"
-    },
-    {
-      "x": 26,
       "y": 61,
       "elevation": 0,
       "dest_map": "MAP_BATTLE_FRONTIER_RECEPTION_GATE",
@@ -412,7 +405,9 @@
       "dest_warp_id": "0"
     }
   ],
-  "coord_events": [],
+  "coord_events": [
+
+  ],
   "bg_events": [
     {
       "type": "sign",
