@@ -2437,3 +2437,57 @@
 	.2byte \dest
 	.endm
 
+	@ applymovement with waitmovement built-in.
+	@ If wait is not provided, waitmovement 0 is emitted.
+	@ If wait has a value, the emitted waitmovement will have that value.
+	@ i.e. if wait is 7, waitmovement 7 will be emitted.
+	@ If you don't want a waitmovement emitted, use applymovement instead.
+	.macro applymove localid:req, movements:req, wait, map
+	applymovement \localid, \movements, \map
+	.ifb \wait
+		waitmovement 0
+	.else
+		waitmovement \wait
+	.endif
+	.endm
+
+	@ applymovement with OBJ_EVENT_ID_PLAYER as the localid and a built-in waitmovement 0.
+	@ If wait is not provided, then waitmovement 0 is emitted.
+	@ If you don't want that emitted (ex: the player and another NPC are moving
+	@ at the same time), then provide any argument for wait.
+	.macro applymoveplayer movements:req, wait, map
+	applymovement OBJ_EVENT_ID_PLAYER, \movements, \map
+	.ifb \wait
+		waitmovement 0
+	.endif
+	.endm
+
+	@ This replicates the most common emote structure in the game, which is:
+	@ -----
+	@ playse SE_PIN
+	@ applymovement LOCALID, Common_Movement_ExclamationMark @ (or others)
+	@ waitmovement 0
+	@ applymovement LOCALID, Common_Movement_Delay48
+	@ waitmovement 0
+	@ -----
+	@ If emote is not provided, then it will do an exclamation mark emote.
+	@ Other params include:
+	@ EMOTE_EXCLAM, EMOTE_QUESTION, and EMOTE_HEART. Invalid entries
+	@ do the exclamation mark emote.
+	.macro emote localid:req, emoteArg
+	playse SE_PIN
+	.ifb \emoteArg
+		applymovement \localid, Common_Movement_ExclamationMark
+	.else
+		.if \emoteArg == EMOTE_QUESTION
+			applymovement \localid, Common_Movement_QuestionMark
+		.elseif \emoteArg == EMOTE_HEART
+			applymovement \localid, Common_Movement_Heart
+		.else
+			applymovement \localid, Common_Movement_ExclamationMark
+		.endif
+	.endif
+	waitmovement 0
+	applymovement \localid, Common_Movement_Delay48
+	waitmovement 0
+	.endm

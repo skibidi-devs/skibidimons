@@ -3,19 +3,6 @@ raw `
 .set LOCALID_GUIDE, 2
 .set LOCALID_SCOTT, 4
 
-BattleFrontier_ReceptionGate_MapScripts::
-	map_script MAP_SCRIPT_ON_FRAME_TABLE, BattleFrontier_ReceptionGate_OnFrame
-	map_script MAP_SCRIPT_ON_TRANSITION, BattleFrontier_ReceptionGate_OnTransition
-	.byte 0
-
-BattleFrontier_ReceptionGate_OnTransition:
-	setflag FLAG_LANDMARK_BATTLE_FRONTIER
-	end
-
-BattleFrontier_ReceptionGate_OnFrame:
-	map_script_2 VAR_HAS_ENTERED_BATTLE_FRONTIER, 0, BattleFrontier_ReceptionGate_EventScript_FirstTimeEntering
-	.2byte 0
-
 BattleFrontier_ReceptionGate_EventScript_FirstTimeEntering::
 	lockall
 	setvar VAR_HAS_ENTERED_BATTLE_FRONTIER, 1
@@ -510,3 +497,40 @@ BattleFrontier_ReceptionGate_Text_BattlePointsInfo:
 	.string "CORNER.$"
 
 `
+mapscripts BattleFrontier_ReceptionGate_MapScripts {
+	MAP_SCRIPT_ON_FRAME_TABLE [
+		VAR_HAS_ENTERED_BATTLE_FRONTIER, 0: BattleFrontier_ReceptionGate_ScottGreetAndMeet
+	]
+	MAP_SCRIPT_ON_TRANSITION {
+		setflag(FLAG_LANDMARK_BATTLE_FRONTIER)
+	}
+}
+
+script BattleFrontier_ReceptionGate_ScottGreetAndMeet {
+	lockall
+	msgbox("???: Well well well,\n"
+			"if it isn't {PLAYER}!", MSGBOX_AUTOCLOSE)
+	applymoveplayer(moves(face_up))
+	emote(OBJ_EVENT_ID_PLAYER, EMOTE_EXCLAM)
+	applymove(LOCALID_SCOTT, moves(walk_down * 5))
+	msgbox("Scott: Hi, I'm Scott!\n"
+			"I run the Battle Frontier.\l"
+			"Speaking of which, welcome!\p"
+			"Scott: Here, you'll need this to get\n"
+			"started.", MSGBOX_DEFAULT)
+	playfanfare(MUS_OBTAIN_ITEM)
+	message(BattleFrontier_ReceptionGate_Text_ObtainedFrontierPass)
+	waitfanfare
+	waitmessage
+	msgbox(BattleFrontier_ReceptionGate_Text_PlacedTrainerCardInFrontierPass, MSGBOX_DEFAULT)
+	setflag(FLAG_SYS_FRONTIER_PASS)
+	msgbox("Good luck, {PLAYER}!\p"
+			"If you have any questions, feel free\n"
+			"to talk to the receptionists here!", MSGBOX_AUTOCLOSE)
+	applymove(LOCALID_SCOTT, moves(walk_up * 5))
+	playse(SE_SLIDING_DOOR)
+	removeobject(LOCALID_SCOTT)
+	setvar(VAR_HAS_ENTERED_BATTLE_FRONTIER, 1)
+	releaseall
+	end
+}
